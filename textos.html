@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Configurações - Mariana Jamilly</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FDF1F0;
+            color: #4A4A4A;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; width: 100%; }
+
+        /* HEADER */
+        header {
+            background-color: #FDDFDD;
+            padding: 15px 0;
+            width: 100%;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #7B141E;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .logo span { display: block; font-size: 11px; font-family: 'Poppins'; font-weight: 300; }
+
+        .nav-menu { display: flex; gap: 25px; list-style: none; }
+        .nav-menu a { text-decoration: none; color: #7B141E; font-weight: 500; font-size: 15px; }
+
+        /* BOTÕES */
+        .btn {
+            display: inline-block;
+            background-color: #D67F79;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover { background-color: #B75B56; transform: translateY(-2px); }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #7B141E;
+            border: 2px solid #7B141E;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-outline:hover { background-color: #7B141E; color: white; }
+
+        /* FORMULÁRIO */
+        .config-page { padding: 40px 0 100px 0; }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #7B141E;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .config-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #FDDFDD;
+        }
+
+        .config-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #7B141E;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FDDFDD;
+            padding-bottom: 10px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #7B141E;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #4A4A4A;
+            background-color: #FAF8F8;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #D67F79;
+            background-color: #FFF;
+            box-shadow: 0 0 0 3px rgba(214, 127, 121, 0.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 90px;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.6;
+        }
+
+        .dynamic-list { display: flex; flex-direction: column; gap: 12px; }
+        .dynamic-item { display: flex; gap: 10px; align-items: flex-start; }
+
+        .btn-remove {
+            background-color: #7B141E;
+            color: white;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .actions-bar {
+            position: sticky;
+            bottom: 20px;
+            background: #FDDFDD;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+        }
+
+        footer {
+            padding: 30px 0;
+            background-color: #FDF1F0;
+            border-top: 1px solid #FDDFDD;
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .config-card { padding: 20px; }
+            .page-title { font-size: 28px; }
+            .actions-bar { flex-direction: column; gap: 10px; border-radius: 15px; text-align: center; }
+            .actions-bar .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                Mariana Jamilly
+                <span>Painel de Configurações</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" >Ver Site ↗</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="config-page">
+        <div class="container">
+            <h1 class="page-title">Configurações do Site</h1>
+
+            <form id="configForm" onsubmit="event.preventDefault(); salvarFirebase();">
+
+                <!-- 1. HERO -->
+                <div class="config-card">
+                    <h2>Início</h2>
+                    
+                    <div class="form-group">
+                        <label for="heroSubtitulo"> Subtítulo</label>
+                        <input type="text" id="heroSubtitulo" class="form-control" value="Bem vinda, amada!">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heroTitulo">Nome</label>
+                        <input type="text" id="heroTitulo" class="form-control" value="Mariana Jamilly">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heroAutora">Ocupação</label>
+                        <input type="text" id="heroAutora" class="form-control" value="Autora">
+                    </div>
+
+<div class="form-group">
+    <label>Foto de perfil</label>
+    <input type="file" id="heroImagemFile" class="form-control" accept="image/*">
+    <input type="hidden" id="heroImagem">
+</div>
+                </div>
+
+                <!-- 2. PERFIL SECUNDÁRIO -->
+                <div class="config-card">
+                    <h2>2. Perfil </h2>
+                    
+                    <div class="form-group">
+                        <label for="perfilSecundarioTitulo">Título</label>
+                        <input type="text" id="perfilSecundarioTitulo" class="form-control" value="Sua identidade não está no que você faz, mas em quem te criou.">
+                    </div>
+
+                <div class="form-group">
+    <label>Foto de conexão com o público</label>
+    <input type="file" id="perfilSecundarioImagemFile" class="form-control" accept="image/*">
+    <input type="hidden" id="perfilSecundarioImagem">
+</div>
+
+                    <div class="form-group">
+                        <label>Parágrafos do Perfil Secundário</label>
+                        <div id="containerPerfilSecundario" class="dynamic-list"></div>
+                        <button type="button" class="btn-outline" onclick="adicionarParagrafo('containerPerfilSecundario')">+ Adicionar Parágrafo</button>
+                    </div>
+                </div>
+
+                <!-- 3. BIO -->
+                <div class="config-card">
+                    <h2>3.
+                Biografia</h2>
+                    
+                    <div class="form-group">
+                        <label for="bioTitulo">Título</label>
+                        <input type="text" id="bioTitulo" class="form-control" value="Conheça um pouco da minha história">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Biografia</label>
+                        <div id="containerBio" class="dynamic-list"></div>
+                        <button type="button" class="btn-outline" onclick="adicionarParagrafo('containerBio')">+ Adicionar Parágrafo</button>
+                    </div>
+                </div>
+
+                <!-- 4. LIVRO -->
+                <div class="config-card">
+                    <h2>4.Livro</h2>
+                    
+                    <div class="form-group">
+                        <label for="livroTitulo">Título</label>
+                        <input type="text" id="livroTitulo" class="form-control" value="Mulheres em Movimento">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="livroDescricao">Subtítulo / Descrição do Livro</label>
+                        <textarea id="livroDescricao" class="form-control">Nenhuma mulher precisa caminhar sozinha. No livro Mulheres em Movimento, uni minha voz a outras 14 mulheres que, assim como você, enfrentaram desertos e momentos de estagnação.&#10;&#10;Descobrimos que, quando compartilhamos nossas feridas curadas, elas se tornam mapas de liberdade para outras irmãs. Este projeto é a prova de que Deus usa a nossa história para ativar a coragem em quem está ao nosso lado.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="livroLink">Link de Compra / Garantir Exemplar</label>
+                        <input type="text" id="livroLink" class="form-control" value="https://wa.me/qr/METOJCZBUMNAA1">
+                    </div>
+
+                 <div class="form-group">
+    <label>Capa do Livro (Galeria)</label>
+    <input type="file" id="livroImagemFile" class="form-control" accept="image/*">
+    <input type="hidden" id="livroImagem">
+</div>
+                </div>
+
+                <!-- 5. DEVOCIONAL -->
+                <div class="config-card">
+                    <h2>5. Seção Grupo Devocional</h2>
+                    
+                    <div class="form-group">
+                        <label for="devocionalTitulo">Título</label>
+                        <input type="text" id="devocionalTitulo" class="form-control" value="🍀Jardim das virtuosas🍀">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Devocional</label>
+                        <div id="containerDevocional" class="dynamic-list"></div>
+                        <button type="button" class="btn-outline" onclick="adicionarParagrafo('containerDevocional')">+ Adicionar Parágrafo</button>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="devocionalLink">Link do Grupo do WhatsApp</label>
+                        <input type="text" id="devocionalLink" class="form-control" value="https://chat.whatsapp.com/DVMMuTtbUU4Jst8Q3HMu8S">
+                    </div>
+                </div>
+
+                <!-- BARRA DE AÇÃO -->
+                <div class="actions-bar">
+                    <span id="statusMsg">Pronto para atualizar</span>
+                    <button type="submit" id="btnSalvar" class="btn">Salvar</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mariana Jamilly. Painel Administrativo de Conteúdo.</p>
+    </footer>
+
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script src="textos.js"></script>
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>

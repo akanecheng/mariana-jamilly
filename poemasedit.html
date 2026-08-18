@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Poemas - Mariana Jamilly</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FDF1F0;
+            color: #4A4A4A;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; width: 100%; }
+
+        /* HEADER IDENTICO AO INDEX */
+        header {
+            background-color: #FDDFDD;
+            padding: 15px 0;
+            width: 100%;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #7B141E;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .logo span { 
+            display: block; 
+            font-size: 11px; font-family: 'Poppins'; font-weight: 300; 
+        }
+
+        .nav-menu { 
+            display: flex; 
+            gap: 25px; 
+            list-style: none; 
+        }
+        
+        .nav-menu a { 
+            text-decoration: none; color: #7B141E; font-weight: 500; 
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #D67F79;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #7B141E;
+            border-radius: 2px;
+        }
+
+        /* CONTEÚDO PRINCIPAL DA PÁGINA */
+        main {
+            flex: 1;
+            padding: 50px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 36px);
+            color: #7B141E;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* FORMULÁRIO DE POEMA */
+        .poema-form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            border-top: 4px solid #D67F79;
+        }
+
+        .poema-form-card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #7B141E;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #7B141E;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #EFD5D2;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            outline: none;
+            background-color: #FAF5F4;
+            transition: 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 160px;
+            line-height: 1.6;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: #D67F79;
+            background-color: #FFF;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            background-color: #D67F79;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background-color: #B75B56; }
+
+        .btn-cancel {
+            background-color: #E0E0E0;
+            color: #555;
+            display: none;
+        }
+
+        .btn-cancel:hover { background-color: #CCCCCC; }
+
+        /* LISTA E CARDS DE POEMAS EXISTENTES */
+        .poemas-lista-titulo {
+            font-family: 'Playfair Display', serif;
+            color: #7B141E;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .poemas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card-gerenciar {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #EFD5D2;
+        }
+
+        .card-gerenciar h3 {
+            font-family: 'Playfair Display', serif;
+            color: #7B141E;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-gerenciar p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-acoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-acao {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-editar { background-color: #FDDFDD; color: #7B141E; }
+        .btn-editar:hover { background-color: #F8C3BF; }
+
+        .btn-excluir { background-color: #FFE5E5; color: #C92A2A; }
+        .btn-excluir:hover { background-color: #FFC9C9; }
+
+        /* FOOTER IDENTICO AO INDEX */
+        footer {
+            padding: 30px 0;
+            background-color: #FDF1F0;
+            border-top: 1px solid #FDDFDD;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #FDDFDD;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            .nav-menu.active { display: flex; }
+            .poema-form-card { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                Mariana Jamilly
+                <span>Painel de Controle</span>
+            </div>
+            
+            <button class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-list">
+                <li><a href="index.html">Ver Site ↗</a></li>
+                <li><a href="index.html#sobre">Sobre</a></li>
+                <li><a href="poemas.html">Poemas</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+                <li><a href="configuracoes.html" style="font-weight: bold; color: #B75B56;">Configurações</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-title">
+            <h1>Gerenciar Poemas</h1>
+            <p>Escreva, edite ou remova as poesias</p>
+        </div>
+
+        <div class="poema-form-card">
+            <h2 id="form-titulo">Escrever Novo Poema</h2>
+            <form id="poemaForm">
+                <input type="hidden" id="poemaId" value="">
+                
+                <div class="form-group">
+                    <label for="tituloPoema">Título do Poema</label>
+                    <input type="text" id="tituloPoema" placeholder="Ex: Caminhando com ele" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="conteudoPoema">Conteúdo do Poema (Escreva os versos abaixo)</label>
+                    <textarea id="conteudoPoema" placeholder="Escreva o poema completo aqui..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="assinaturaPoema">Assinatura do Autor</label>
+                    <input type="text" id="assinaturaPoema" placeholder="Ex: Mariana Jamilly" value="Mariana Jamilly">
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn" id="btnSalvar">Publicar Poema</button>
+                    <button type="button" class="btn btn-cancel" id="btnCancelar">Cancelar Edição</button>
+                </div>
+            </form>
+        </div>
+
+        <h2 class="poemas-lista-titulo">Poemas Cadastrados</h2>
+        <div class="poemas-grid" id="poemasContainer">
+            <p style="color: #777;">Carregando poemas do Firebase...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p style="font-size: 12px; opacity: 0.6;">&copy; 2026 Mariana Jamilly. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+    <script src="poemasedit.js"></script>
+</body>
+</html>

@@ -147,6 +147,50 @@ A cada passo, sinto sua mão abençoada a me guardar"</p>
         </div>
 
     </div>
+    
+    
+<div class="poemas-grid" id="listaPoemas"></div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+
+<script>
+    function renderizarPoemasNaLista() {
+        const container = document.getElementById('listaPoemas');
+        const db = firebase.firestore();
+
+        db.collection("poemas").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
+            container.innerHTML = '';
+            if (snapshot.empty) {
+                container.innerHTML = '<p style="text-align: center; color: #777;">Nenhum poema publicado ainda.</p>';
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const poema = doc.data();
+                const linhas = (poema.texto || '').split('\n');
+                const primeiraLinha = linhas[0] || '';
+                const segundaLinha = linhas[1] || '';
+
+                const card = document.createElement('a');
+                card.className = 'card-poema';
+                card.href = `poema1.html?id=${doc.id}`;
+                card.innerHTML = `
+                    <h3>${poema.titulo || 'Sem título'}</h3>
+                    <p>"${primeiraLinha}<br>${segundaLinha}..."</p>
+                    <span class="ler-mais">Ler Poema Completo →</span>
+                `;
+                container.appendChild(card);
+            });
+        }, (erro) => {
+            console.error("Erro ao carregar poemas da lista:", erro);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderizarPoemasNaLista);
+</script>
 
 </body>
 </html>

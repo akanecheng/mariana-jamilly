@@ -1,159 +1,195 @@
- const firebaseConfig = {
-            apiKey: "AIzaSyDOOPrODo46x_VqXNUdvwq38wYK1TCkJXA",
-            authDomain: "mariana-jamilly.firebaseapp.com",
-            projectId: "mariana-jamilly",
-            storageBucket: "mariana-jamilly.firebasestorage.app",
-            messagingSenderId: "983935199953",
-            appId: "1:983935199953:web:7b83c279b809056218b3f0",
-            databaseURL: "https://mariana-jamilly-default-rtdb.firebaseio.com" // Ajuste a URL do RTDB se for diferente
+const firebaseConfig = {
+    apiKey: "AIzaSyDOOPrODo46x_VqXNUdvwq38wYK1TCkJXA",
+    authDomain: "mariana-jamilly.firebaseapp.com",
+    projectId: "mariana-jamilly",
+    storageBucket: "mariana-jamilly.firebasestorage.app",
+    messagingSenderId: "983935199953",
+    appId: "1:983935199953:web:7b83c279b809056218b3f0"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+// Função para redimensionar e comprimir imagens antes de enviar
+function comprimirImagem(file, maxWidth = 800, maxHeight = 800, qualidade = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL('image/jpeg', qualidade));
+            };
+            img.onerror = (error) => reject(error);
         };
+        reader.onerror = (error) => reject(error);
+    });
+}
 
-        // Inicialização
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const db = firebase.database();
-
-        // Parágrafos Padrão
-        const padraoPerfil = [
-            'Eu sei como é a sensação de estar cercada de pessoas, mas ainda assim sentir que ninguém realmente entende o que se passa no silêncio da sua alma. Sei o que é tentar dar conta de tudo das expectativas, da rotina, dos papéis que lhe impõem e, ao final do dia, sentir um vazio que nenhuma conquista parece preencher..',
-            'Muitas vezes, nós nos perdemos tentando nos encontrar no mundo e acabamos esquecendo da mulher que Deus planejou. Você talvez sinta que está apenas sobrevivendo, "secando" por dentro, enquanto tenta se encontrar.',
-            'Mas quero te dizer algo que mudou a minha vida: a sua identidade está em Cristo Jesus. Você não foi feita para correr atrás das coisas deste mundo; você foi feita para desfrutar do amor de Deus.',
-            'Talvez o cansaço e o vazio que você sente sejam, na verdade, a sua alma clamando pela presença de Deus. Se você já tentou de tudo, está cansada de viver assim e deseja desfrutar do que Deus já preparou para você, eu te convido a caminhar comigo nesta jornada de autoconhecimento, evolução espiritual, reencontro e realização.'
-        ];
-
-        const padraoBio = [
-            'Olá, eu sou Mariana Jamilly. Sou escritora, mas, acima de tudo, uma mulher que decidiu viver a plenitude prometida por Jesus.',
-            'Minha jornada não foi apenas sobre mudar hábitos, mas sobre me encontrar em Cristo. Vivi a angústia de um vazio profundo e a tristeza de não me sentir amada, até que voltei meus olhos para o Criador. O que começou como uma cura interior logo transformou tudo ao meu redor: meus relacionamentos, minha identidade e meu propósito.',
-            'Hoje, entendo que minhas dores e vitórias não foram em vão, elas serviram para que eu pudesse guiar a sua transformação. Não quero apenas observar sua trajetória, quero caminhar ao seu lado.',
-            'Tudo o que eu vivi, as dores, os processos e as vitórias, não foi para ficar guardado em mim. Foi para que eu pudesse ser um mapa para a sua própria transformação. Eu não quero apenas te ver de longe, eu te convido a caminhar ao meu lado.',
-            'Vamos descobrir o que Deus tem preparado para você nessa jornada?'
-        ];
-
-        const padraoDevocional = [
-            'Sabemos que a rotina pode ser agitada, e às vezes tudo o que precisamos é de um fôlego, de uma palavra que nos lembre de quem somos em Deus.',
-            'O Jardim das Virtuosas nasceu para ser esse respiro no seu celular. Não é apenas mais um grupo de mensagens, é uma comunidade de mulheres reais, que caminham juntas, partilham a fé e florescem no seu próprio tempo.',
-            'Ao entrar, você encontrará:\n\n🌷Carinho diário: Devocionais e reflexões para acalmar o coração e dar direção.\n\n🌷Caminhada junta: Um espaço para fortalecer sua identidade e propósito.\n\n🌷 Proximidade: encontros presenciais'
-        ];
-
-        // Função para criar elemento visual de input de parágrafo
-        function adicionarParagrafo(containerId, valor = '') {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            const newItem = document.createElement('div');
-            newItem.className = 'dynamic-item';
-            newItem.innerHTML = `
-                <textarea class="form-control" placeholder="Escreva o parágrafo...">${valor}</textarea>
-                <button type="button" class="btn-remove" onclick="removerItem(this)">×</button>
-            `;
-            container.appendChild(newItem);
-        }
-
-        function removerItem(button) {
-            button.parentElement.remove();
-        }
-
-        function extrairParagrafos(containerId) {
-            const list = [];
-            const textareas = document.querySelectorAll(`#${containerId} textarea`);
-            textareas.forEach(ta => {
-                if(ta.value.trim() !== '') list.push(ta.value.trim());
-            });
-            return list;
-        }
-
-        // Carregar do Firebase para preencher o formulário
-        db.ref('siteData').once('value').then(snapshot => {
-            const data = snapshot.val();
-
-            if (!data) {
-                padraoPerfil.forEach(txt => adicionarParagrafo('containerPerfilSecundario', txt));
-                padraoBio.forEach(txt => adicionarParagrafo('containerBio', txt));
-                padraoDevocional.forEach(txt => adicionarParagrafo('containerDevocional', txt));
-                return;
-            }
-
-            if (data.hero) {
-                document.getElementById('heroSubtitulo').value = data.hero.subtitulo || '';
-                document.getElementById('heroTitulo').value = data.hero.titulo || '';
-                document.getElementById('heroAutora').value = data.hero.autora || '';
-                document.getElementById('heroImagem').value = data.hero.imagem || '';
-            }
-
-            if (data.perfilSecundario) {
-                document.getElementById('perfilSecundarioTitulo').value = data.perfilSecundario.titulo || '';
-                document.getElementById('perfilSecundarioImagem').value = data.perfilSecundario.imagem || '';
-                if (data.perfilSecundario.paragrafos) {
-                    data.perfilSecundario.paragrafos.forEach(txt => adicionarParagrafo('containerPerfilSecundario', txt));
+// Ouvintes dos inputs de arquivo com compressão
+['heroImagemFile', 'perfilSecundarioImagemFile', 'livroImagemFile'].forEach(fileInputId => {
+    const hiddenInputId = fileInputId.replace('File', '');
+    const element = document.getElementById(fileInputId);
+    if (element) {
+        element.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const base64Comprimida = await comprimirImagem(file);
+                    document.getElementById(hiddenInputId).value = base64Comprimida;
+                } catch (err) {
+                    console.error("Erro ao processar imagem:", err);
+                    alert("Erro ao carregar a imagem. Tente outra foto.");
                 }
             }
+        });
+    }
+});
 
-            if (data.bio) {
-                document.getElementById('bioTitulo').value = data.bio.titulo || '';
-                if (data.bio.paragrafos) {
-                    data.bio.paragrafos.forEach(txt => adicionarParagrafo('containerBio', txt));
-                }
-            }
+function adicionarParagrafo(containerId, valor = '') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const newItem = document.createElement('div');
+    newItem.className = 'dynamic-item';
+    newItem.innerHTML = `
+        <textarea class="form-control" placeholder="Escreva o parágrafo...">${valor}</textarea>
+        <button type="button" class="btn-remove" onclick="removerItem(this)">×</button>
+    `;
+    container.appendChild(newItem);
+}
 
-            if (data.livro) {
-                document.getElementById('livroTitulo').value = data.livro.titulo || '';
-                document.getElementById('livroDescricao').value = data.livro.descricao || '';
-                document.getElementById('livroLink').value = data.livro.link || '';
-                document.getElementById('livroImagem').value = data.livro.imagem || '';
-            }
+function removerItem(button) {
+    button.parentElement.remove();
+}
 
-            if (data.devocional) {
-                document.getElementById('devocionalTitulo').value = data.devocional.titulo || '';
-                document.getElementById('devocionalLink').value = data.devocional.link || '';
-                if (data.devocional.paragrafos) {
-                    data.devocional.paragrafos.forEach(txt => adicionarParagrafo('containerDevocional', txt));
-                }
+function extrairParagrafos(containerId) {
+    const list = [];
+    const textareas = document.querySelectorAll(`#${containerId} textarea`);
+    textareas.forEach(ta => {
+        if (ta.value.trim() !== '') list.push(ta.value.trim());
+    });
+    return list;
+}
+
+async function carregarDados() {
+    try {
+        const colecoes = ['hero', 'perfilSecundario', 'bio', 'livro', 'devocional'];
+        for (const col of colecoes) {
+            const snapshot = await db.collection(col).get();
+            if (!snapshot.empty) {
+                const data = snapshot.docs[0].data();
+                preencherFormulario(col, data);
             }
-        }).catch(err => {
-            console.error("Erro ao carregar dados:", err);
+        }
+    } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+    }
+}
+
+function preencherFormulario(secao, data) {
+    if (secao === 'hero') {
+        if (data.subtitulo) document.getElementById('heroSubtitulo').value = data.subtitulo;
+        if (data.titulo) document.getElementById('heroTitulo').value = data.titulo;
+        if (data.autora) document.getElementById('heroAutora').value = data.autora;
+        if (data.imagem) document.getElementById('heroImagem').value = data.imagem;
+    }
+    if (secao === 'perfilSecundario') {
+        if (data.titulo) document.getElementById('perfilSecundarioTitulo').value = data.titulo;
+        if (data.imagem) document.getElementById('perfilSecundarioImagem').value = data.imagem;
+        if (data.paragrafos) data.paragrafos.forEach(p => adicionarParagrafo('containerPerfilSecundario', p));
+    }
+    if (secao === 'bio') {
+        if (data.titulo) document.getElementById('bioTitulo').value = data.titulo;
+        if (data.paragrafos) data.paragrafos.forEach(p => adicionarParagrafo('containerBio', p));
+    }
+    if (secao === 'livro') {
+        if (data.titulo) document.getElementById('livroTitulo').value = data.titulo;
+        if (data.descricao) document.getElementById('livroDescricao').value = data.descricao;
+        if (data.link) document.getElementById('livroLink').value = data.link;
+        if (data.imagem) document.getElementById('livroImagem').value = data.imagem;
+    }
+    if (secao === 'devocional') {
+        if (data.titulo) document.getElementById('devocionalTitulo').value = data.titulo;
+        if (data.link) document.getElementById('devocionalLink').value = data.link;
+        if (data.paragrafos) data.paragrafos.forEach(p => adicionarParagrafo('containerDevocional', p));
+    }
+}
+
+async function salvarFirebase() {
+    const statusMsg = document.getElementById('statusMsg');
+    statusMsg.innerText = "Salvando alterações...";
+
+    try {
+        const bioDocs = await db.collection('bio').get();
+        const bioRef = bioDocs.empty ? db.collection('bio').doc() : bioDocs.docs[0].ref;
+        await bioRef.set({
+            titulo: document.getElementById('bioTitulo').value,
+            paragrafos: extrairParagrafos('containerBio')
         });
 
-        // Função para Salvar os Dados no Firebase
-        function salvarFirebase() {
-            const statusMsg = document.getElementById('statusMsg');
-            statusMsg.innerText = "Salvando alterações...";
+        const heroDocs = await db.collection('hero').get();
+        const heroRef = heroDocs.empty ? db.collection('hero').doc() : heroDocs.docs[0].ref;
+        await heroRef.set({
+            subtitulo: document.getElementById('heroSubtitulo').value,
+            titulo: document.getElementById('heroTitulo').value,
+            autora: document.getElementById('heroAutora').value,
+            imagem: document.getElementById('heroImagem').value
+        });
 
-            const payload = {
-                hero: {
-                    subtitulo: document.getElementById('heroSubtitulo').value,
-                    titulo: document.getElementById('heroTitulo').value,
-                    autora: document.getElementById('heroAutora').value,
-                    imagem: document.getElementById('heroImagem').value
-                },
-                perfilSecundario: {
-                    titulo: document.getElementById('perfilSecundarioTitulo').value,
-                    imagem: document.getElementById('perfilSecundarioImagem').value,
-                    paragrafos: extrairParagrafos('containerPerfilSecundario')
-                },
-                bio: {
-                    titulo: document.getElementById('bioTitulo').value,
-                    paragrafos: extrairParagrafos('containerBio')
-                },
-                livro: {
-                    titulo: document.getElementById('livroTitulo').value,
-                    descricao: document.getElementById('livroDescricao').value,
-                    link: document.getElementById('livroLink').value,
-                    imagem: document.getElementById('livroImagem').value
-                },
-                devocional: {
-                    titulo: document.getElementById('devocionalTitulo').value,
-                    link: document.getElementById('devocionalLink').value,
-                    paragrafos: extrairParagrafos('containerDevocional')
-                }
-            };
+        const perfilDocs = await db.collection('perfilSecundario').get();
+        const perfilRef = perfilDocs.empty ? db.collection('perfilSecundario').doc() : perfilDocs.docs[0].ref;
+        await perfilRef.set({
+            titulo: document.getElementById('perfilSecundarioTitulo').value,
+            imagem: document.getElementById('perfilSecundarioImagem').value,
+            paragrafos: extrairParagrafos('containerPerfilSecundario')
+        });
 
-            db.ref('siteData').set(payload)
-                .then(() => {
-                    statusMsg.innerText = "Salvo com sucesso!";
-                    setTimeout(() => statusMsg.innerText = "Pronto para atualizar", 3000);
-                })
-                .catch(error => {
-                    console.error(error);
-                    statusMsg.innerText = "Erro ao salvar!";
-                });
-        }
+        const livroDocs = await db.collection('livro').get();
+        const livroRef = livroDocs.empty ? db.collection('livro').doc() : livroDocs.docs[0].ref;
+        await livroRef.set({
+            titulo: document.getElementById('livroTitulo').value,
+            descricao: document.getElementById('livroDescricao').value,
+            link: document.getElementById('livroLink').value,
+            imagem: document.getElementById('livroImagem').value
+        });
+
+        const devDocs = await db.collection('devocional').get();
+        const devRef = devDocs.empty ? db.collection('devocional').doc() : devDocs.docs[0].ref;
+        await devRef.set({
+            titulo: document.getElementById('devocionalTitulo').value,
+            link: document.getElementById('devocionalLink').value,
+            paragrafos: extrairParagrafos('containerDevocional')
+        });
+
+        statusMsg.innerText = "Salvo com sucesso!";
+        setTimeout(() => statusMsg.innerText = "Pronto para atualizar", 3000);
+    } catch (error) {
+        console.error("Erro ao salvar:", error);
+        statusMsg.innerText = "Erro ao salvar!";
+    }
+}
+
+carregarDados();

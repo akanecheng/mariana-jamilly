@@ -31,7 +31,12 @@ function carregarEAtualizarIndex() {
 // Atualiza os elementos HTML da index com os dados salvos no Firestore
 function atualizarDOM(secao, data) {
     if (secao === 'hero') {
-        if (data.subtitulo) document.getElementById('viewHeroSubtitulo').innerText = data.subtitulo;
+      const elSubtitulo = document.getElementById('viewHeroSubtitulo');
+if (data.subtitulo && elSubtitulo) {
+    elSubtitulo.innerText = data.subtitulo;
+}
+
+
         if (data.titulo) document.getElementById('viewHeroTitulo').innerText = data.titulo;
         if (data.autora) document.getElementById('viewHeroAutora').innerText = data.autora;
         if (data.imagem) document.getElementById('viewHeroImg').src = data.imagem;

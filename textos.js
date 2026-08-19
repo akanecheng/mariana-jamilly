@@ -111,7 +111,9 @@ async function carregarDados() {
 
 function preencherFormulario(secao, data) {
     if (secao === 'hero') {
-        if (data.subtitulo) document.getElementById('heroSubtitulo').value = data.subtitulo;
+        const inputSubtitulo = document.getElementById('heroSubtitulo');
+if (inputSubtitulo && data.subtitulo) inputSubtitulo.value = data.subtitulo;
+
         if (data.titulo) document.getElementById('heroTitulo').value = data.titulo;
         if (data.autora) document.getElementById('heroAutora').value = data.autora;
         if (data.imagem) document.getElementById('heroImagem').value = data.imagem;
@@ -143,52 +145,72 @@ async function salvarFirebase() {
     statusMsg.innerText = "Salvando alterações...";
 
     try {
+        // 1. BIO
         const bioDocs = await db.collection('bio').get();
         const bioRef = bioDocs.empty ? db.collection('bio').doc() : bioDocs.docs[0].ref;
         await bioRef.set({
-            titulo: document.getElementById('bioTitulo').value,
+            titulo: document.getElementById('bioTitulo')?.value || '',
             paragrafos: extrairParagrafos('containerBio')
         });
 
+        // 2. HERO / INÍCIO (Com verificações seguras contra erros)
         const heroDocs = await db.collection('hero').get();
         const heroRef = heroDocs.empty ? db.collection('hero').doc() : heroDocs.docs[0].ref;
+
+        // Pega o valor do subtitulo SE ele existir no HTML, senão deixa string vazia
+        const elemSubtitulo = document.getElementById('heroSubtitulo');
+        const subtituloValor = elemSubtitulo ? elemSubtitulo.value : "";
+
+        // Pega os valores da Autora e Titulo com segurança
+        const elemAutora = document.getElementById('heroAutora');
+        const autoraValor = elemAutora ? elemAutora.value : "Autora";
+
+        const elemTitulo = document.getElementById('heroTitulo');
+        const tituloValor = elemTitulo ? elemTitulo.value : "";
+
+        const elemImagem = document.getElementById('heroImagem');
+        const imagemValor = elemImagem ? elemImagem.value : "";
+
         await heroRef.set({
-            subtitulo: document.getElementById('heroSubtitulo').value,
-            titulo: document.getElementById('heroTitulo').value,
-            autora: document.getElementById('heroAutora').value,
-            imagem: document.getElementById('heroImagem').value
+            subtitulo: subtituloValor,
+            titulo: tituloValor,
+            autora: autoraValor,
+            imagem: imagemValor
         });
 
+        // 3. PERFIL SECUNDÁRIO
         const perfilDocs = await db.collection('perfilSecundario').get();
         const perfilRef = perfilDocs.empty ? db.collection('perfilSecundario').doc() : perfilDocs.docs[0].ref;
         await perfilRef.set({
-            titulo: document.getElementById('perfilSecundarioTitulo').value,
-            imagem: document.getElementById('perfilSecundarioImagem').value,
+            titulo: document.getElementById('perfilSecundarioTitulo')?.value || '',
+            imagem: document.getElementById('perfilSecundarioImagem')?.value || '',
             paragrafos: extrairParagrafos('containerPerfilSecundario')
         });
 
+        // 4. LIVRO
         const livroDocs = await db.collection('livro').get();
         const livroRef = livroDocs.empty ? db.collection('livro').doc() : livroDocs.docs[0].ref;
         await livroRef.set({
-            titulo: document.getElementById('livroTitulo').value,
-            descricao: document.getElementById('livroDescricao').value,
-            link: document.getElementById('livroLink').value,
-            imagem: document.getElementById('livroImagem').value
+            titulo: document.getElementById('livroTitulo')?.value || '',
+            descricao: document.getElementById('livroDescricao')?.value || '',
+            link: document.getElementById('livroLink')?.value || '',
+            imagem: document.getElementById('livroImagem')?.value || ''
         });
 
+        // 5. DEVOCIONAL
         const devDocs = await db.collection('devocional').get();
         const devRef = devDocs.empty ? db.collection('devocional').doc() : devDocs.docs[0].ref;
         await devRef.set({
-            titulo: document.getElementById('devocionalTitulo').value,
-            link: document.getElementById('devocionalLink').value,
+            titulo: document.getElementById('devocionalTitulo')?.value || '',
+            link: document.getElementById('devocionalLink')?.value || '',
             paragrafos: extrairParagrafos('containerDevocional')
         });
 
         statusMsg.innerText = "Salvo com sucesso!";
         setTimeout(() => statusMsg.innerText = "Pronto para atualizar", 3000);
     } catch (error) {
-        console.error("Erro ao salvar:", error);
-        statusMsg.innerText = "Erro ao salvar!";
+        console.error("Erro detalhado ao salvar:", error);
+        statusMsg.innerText = "Erro ao salvar! Veja o console.";
     }
 }
 

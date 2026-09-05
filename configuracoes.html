@@ -287,12 +287,23 @@
     ];
 
     firebase.auth().onAuthStateChanged((usuario) => {
-        if (usuario && EMAILS_AUTORIZADOS.includes(usuario.email)) {
-            document.body.style.display = "flex";
-        } else {
-            window.location.href = "login.html";
-        }
+        alert(usuario ? usuario.email : "SEM USUARIO");
+        if (usuario) {
+    document.body.style.display = "flex";
+} else {
+    window.location.href = "login.html";
+}
     });
+    
+    firebase.auth().onAuthStateChanged((usuario) => {
+
+    alert("EMAIL RETORNADO: " + usuario.email);
+
+    alert(
+        EMAILS_AUTORIZADOS.includes(usuario.email)
+    );
+
+});
 
     document.addEventListener('DOMContentLoaded', () => {
         const mobileMenu = document.getElementById('mobile-menu');
@@ -314,6 +325,5 @@
         }
     });
 </script>
-    </script>
 </body>
 </html>

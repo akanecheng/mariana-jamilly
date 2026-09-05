@@ -1,180 +1,164 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
-  
-  <title></title>
-  <style>
-     * { 
-         margin: 0; 
-         padding: 0; 
-         box-sizing: border-box;
-         }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="paginaTitulo">Poema - Mariana Jamilly</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-           background:linear-gradient(180deg,#FDF1F0 0%, #F9E4E1 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 90px 20px 30px;
+            background-color: #FDF1F0;
+            color: #4A4A4A;
             min-height: 100vh;
-            
-        }
-        
-        .PoemaCard{
-            width: min(90% 900px);
-            background:#fffaf8;
-border:1px solid #efd5d2;
-            max-width: 800px;
-            width:100%;
-            padding: 60px 50px;
-            border-radius: 28px;
-            box-shadow: 0 8px 30px rgba(0,0,0,.08);
-            text-align: center;
-        }
-    
-        
-       .PoemaCard h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 5vw,3rem);
-            color: #7B141E;
-            margin-bottom: 35px;
-            text-align: center;
-            margin: 0 auto 35px;
+            display: flex;
+            flex-direction: column;
         }
 
-       .PoemaCard p {
-            font-family: 'Playfair Display',serif;
-            text-align: center;
-            font-size:clamp(1.15rem,3vw,1.5rem);
-            line-height: 2.2;
-            font-style: italic;
-            color:#5d5555
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+            width: 100%;
+            flex: 1;
         }
-        
-        /*responsividade*/
-        
-        .voltar{
-            position: fixed;
-            top:25px;
-            left: 25px;
+
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 30px;
             text-decoration: none;
-            background:#D67F79;
-            color: white;
-            padding: 12px 22px;
-            border-radius: 30px;
+            color: #7B141E;
+            font-size: 14px;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,.08);
-            transition: .3s;
-            z-index: 1000;
-            
+            transition: color 0.2s;
         }
-        
-        .voltar:hover{
-            background:#B75B56;
-            transform:translateY(-2px)
-            
-        }
-        
-        @media(max-width:600px){
-            .voltar{
-                top: 15px;
-                left: 15px;
-                padding: 10px 18px;
-                font-size: 14px;
-            }
-            .PoemaCard{
-                padding: 40px 25px;
-                border-radius: 20px;
-            }
 
-            .PoemaCard p{
-                line-height: 2;
-            }
-            
-            .assinatura{
-                font-size: 1.2rem;
-                margin-top: 35px;
-            }
-            
+        .btn-voltar:hover {
+            color: #D67F79;
         }
-        
-        .assinatura{
-            margin-top: 20px;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.4rem;
-            color:#7B141E;
-            text-align: right;
-            opacity: .85;
+
+        .poema-container {
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(123, 20, 30, 0.05);
+            border: 1px solid #EFD5D2;
+            text-align: center;
         }
-        
-        .decoracao{
+
+        .poema-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #7B141E;
             margin-bottom: 30px;
         }
-        
-  </style>
-  
-  
-  
+
+        .poema-texto {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            line-height: 2;
+            color: #4A4A4A;
+            white-space: pre-line;
+            margin-bottom: 40px;
+        }
+
+        .poema-autor {
+            font-style: italic;
+            color: #D67F79;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid #FDDFDD;
+        }
+
+        @media (max-width: 600px) {
+            .poema-container { padding: 30px 20px; }
+            .poema-titulo { font-size: 28px; }
+            .poema-texto { font-size: 16px; line-height: 1.8; }
+        }
+    </style>
 </head>
-
 <body>
-  
-  <section class="PoemaCard">
-        <h1>Caminhando com ele</h1>
-          <div class="decoracao">
-        <p>Caminhando com Ele
 
-Sozinha, mas não solitária, eu percorro o caminho.
-<br>
-A cada passo, sinto sua mão abençoada a me guardar.
-<br>
-Sou sua filha amada, sou delicada e sou forte,
-<br>
-Na presença do Eterno, encontro meu norte.
-<br>
-Há paz no silêncio, há consolo com Ele.<br>
-Com Cristo ao meu lado, nunca estou solitária.<br>
-Meu coração bate na doce harmonia
-De saber que sou dele, e Ele é minha alegria.
-<br>
-A cada manhã, um novo recomeço,
-Com o Senhor, encontro o amor que mereço.<br>
-Meu espírito dança, minha alma sorri,
-Na presença do Eterno, sou tudo o que sempre quis.
-<br>
-E assim sigo em frente, livre, em paz e verdade,<br>
-Com Ele, sou plena, sou pura liberdade.<br>
-Na sua presença, eu vivo, floresço e cresço,<br>
-Com Cristo ao meu lado, de nada tenho falta.<br>
+    <div class="container">
+        <a href="poemas.html" class="btn-voltar">← Voltar para todos os poemas</a>
 
+        <article class="poema-container">
+            <h1 class="poema-titulo" id="poemaTitulo">Carregando...</h1>
+            <div class="poema-texto" id="poemaTexto">Aguarde um instante enquanto buscamos os versos...</div>
+            <div class="poema-autor" id="poemaAutor"></div>
+        </article>
+    </div>
 
+    <footer>
+        <p style="font-size: 12px; opacity: 0.6;">&copy; 2026 Mariana Jamilly. Todos os direitos reservados.</p>
+    </footer>
 
+    <!-- Firebase SDK Compat Core e Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-</p>
-  
-  </div>
-  
-  <div class="assinatura">
-      — Mariana Jamilly 
-  </div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEggZoP5vk1JENjO8701pAFdBIBPB8gPQ",
+            authDomain: "somos-mulheres-em-movimento.firebaseapp.com",
+            projectId: "somos-mulheres-em-movimento",
+            storageBucket: "somos-mulheres-em-movimento.firebasestorage.app",
+            messagingSenderId: "427525655209",
+            appId: "1:427525655209:web:cc00a592936dbd3df9f7b8"
+        };
 
-  </section>
-  
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
+        const db = firebase.firestore();
 
-<a href="poemas.html" class="voltar">← Voltar para poemas</a>
-  
+        async function carregarPoema() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const poemaId = urlParams.get('id');
+
+            const tituloEl = document.getElementById('poemaTitulo');
+            const textoEl = document.getElementById('poemaTexto');
+            const autorEl = document.getElementById('poemaAutor');
+
+            if (!poemaId) {
+                tituloEl.innerText = "Poema não encontrado";
+                textoEl.innerText = "Nenhum poema foi selecionado na página anterior.";
+                return;
+            }
+
+            try {
+                const doc = await db.collection("poemas").doc(poemaId).get();
+
+                if (doc.exists) {
+                    const poema = doc.data();
+                    document.getElementById('paginaTitulo').innerText = `${poema.titulo || 'Poema'} - Mariana Jamilly`;
+                    tituloEl.innerText = poema.titulo || 'Sem título';
+                    textoEl.innerText = poema.texto || '';
+                    autorEl.innerText = `— ${poema.assinatura || 'Mariana Jamilly'}`;
+                } else {
+                    tituloEl.innerText = "Poema não encontrado";
+                    textoEl.innerText = "Este poema não está disponível ou foi removido.";
+                }
+            } catch (erro) {
+                console.error("Erro ao buscar poema:", erro);
+                tituloEl.innerText = "Erro ao carregar";
+                textoEl.innerText = "Ocorreu um erro ao buscar o poema. Tente novamente mais tarde.";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarPoema);
+    </script>
 </body>
-
 </html>

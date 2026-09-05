@@ -360,7 +360,9 @@
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="poemas.html">Poemas</a></li>
                 <li><a href="#contato">Contato</a></li>
-                  <li><a href="configuracoes.html">Configurações</a></li>
+<li id="link-admin" style="display: none;">
+        <a href="configuracoes.html" style="font-weight: bold; color: #B75B56;">Configurações</a>
+    </li>
             </ul>
         </div>
     </header>
@@ -468,5 +470,30 @@
 
     <!-- Seu script principal da index -->
     <script src="script.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+<script>
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const EMAILS_ADM = [
+    "polyanadesn02@gmail.com",
+    
+  ];
+
+  // Mostra o botão do painel apenas se o usuário logado for um ADM
+  firebase.auth().onAuthStateChanged((usuario) => {
+    const linkAdmin = document.getElementById('link-admin');
+    if (usuario && EMAILS_ADM.includes(usuario.email)) {
+      linkAdmin.style.display = 'block';
+    } else {
+      linkAdmin.style.display = 'none';
+    }
+  });
+</script>
+
 </body>
 </html>

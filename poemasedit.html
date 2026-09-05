@@ -24,7 +24,6 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; width: 100%; }
 
-        /* HEADER IDENTICO AO INDEX */
         header {
             background-color: #FDDFDD;
             padding: 15px 0;
@@ -62,9 +61,7 @@
             transition: 0.3s;
         }
 
-        .nav-menu a:hover {
-            color: #D67F79;
-        }
+        .nav-menu a:hover { color: #D67F79; }
         
         .menu-toggle {
             display: none;
@@ -83,7 +80,6 @@
             border-radius: 2px;
         }
 
-        /* CONTEÚDO PRINCIPAL DA PÁGINA */
         main {
             flex: 1;
             padding: 50px 0;
@@ -101,12 +97,8 @@
             margin-bottom: 8px;
         }
 
-        .page-title p {
-            color: #666;
-            font-size: 15px;
-        }
+        .page-title p { color: #666; font-size: 15px; }
 
-        /* FORMULÁRIO DE POEMA */
         .poema-form-card {
             background: white;
             padding: 35px;
@@ -123,9 +115,7 @@
             font-size: 22px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
@@ -160,10 +150,7 @@
             background-color: #FFF;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-        }
+        .btn-group { display: flex; gap: 12px; }
 
         .btn {
             background-color: #D67F79;
@@ -187,7 +174,6 @@
 
         .btn-cancel:hover { background-color: #CCCCCC; }
 
-        /* LISTA E CARDS DE POEMAS EXISTENTES */
         .poemas-lista-titulo {
             font-family: 'Playfair Display', serif;
             color: #7B141E;
@@ -225,15 +211,12 @@
             line-height: 1.6;
             margin-bottom: 20px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .card-acoes {
-            display: flex;
-            gap: 10px;
-        }
+        .card-acoes { display: flex; gap: 10px; }
 
         .btn-acao {
             flex: 1;
@@ -252,7 +235,6 @@
         .btn-excluir { background-color: #FFE5E5; color: #C92A2A; }
         .btn-excluir:hover { background-color: #FFC9C9; }
 
-        /* FOOTER IDENTICO AO INDEX */
         footer {
             padding: 30px 0;
             background-color: #FDF1F0;
@@ -296,10 +278,7 @@
             
             <ul class="nav-menu" id="nav-list">
                 <li><a href="index.html">Ver Site ↗</a></li>
-                <li><a href="index.html#sobre">Sobre</a></li>
                 <li><a href="poemas.html">Poemas</a></li>
-                <li><a href="index.html#contato">Contato</a></li>
-                <li><a href="configuracoes.html" style="font-weight: bold; color: #B75B56;">Configurações</a></li>
             </ul>
         </div>
     </header>
@@ -351,7 +330,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="script.js"></script>
     <script src="poemasedit.js"></script>
 </body>
 </html>

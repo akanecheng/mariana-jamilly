@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poemas - Mariana virtudes</title>
+    <title>Poemas - Mariana Virtudes</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,11 +20,9 @@
 
         .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
 
-        /* HEADER DA PÁGINA DE POEMAS */
         .poemas-header {
-            
             text-align: center;
-            padding: 60px 0;
+            padding: 40px 0;
         }
 
         .poemas-header h1 {
@@ -37,21 +35,19 @@
         .poemas-header p {
             font-style: italic;
             color: #D67F79;
-            max-height: 650px;
-            margin:0 auto;
+            max-width: 650px;
+            margin: 0 auto;
             padding: 0 10px;
             line-height: 1.8;
         }
 
-        /* GRID DE CARDS */
         .poemas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
-        /* ESTILO DO CARD */
         .card-poema {
             background: white;
             padding: 30px;
@@ -95,10 +91,9 @@
             letter-spacing: 1px;
         }
 
-        /* BOTÃO VOLTAR */
         .btn-voltar {
             display: inline-block;
-            margin-top: 50px;
+            margin-bottom: 20px;
             text-decoration: none;
             color: #7B141E;
             font-size: 14px;
@@ -106,91 +101,76 @@
         }
 
         @media (max-width: 600px) {
-            .poemas-header h1 { 
-              font-size: clamp(2rem, 5vw, 42px);
-              }
-              
-              .container{
-                  padding: 30px 18px;
-              }
-              
-              .poemas-header{
-                  padding: 40px 0;
-              }
-              
-              .card-poema{
-                  padding: 25px;
-              }
+            .poemas-header h1 { font-size: clamp(2rem, 5vw, 42px); }
+            .container { padding: 20px 18px; }
+            .card-poema { padding: 25px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
         <header class="poemas-header">
             <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
-            <h1 style="margin-top: 20px;">Poesias e Florescimentos</h1>
-            <p>Para além do movimento, cultivo o silêncio. Aqui compartilho versos sobre a vida, a fé e os detalhes que os olhos comuns não veem."</p>
+            <h1>Poesias e Florescimentos</h1>
+            <p>"Para além do movimento, cultivo o silêncio. Aqui compartilho versos sobre a vida, a fé e os detalhes que os olhos comuns não veem."</p>
         </header>
 
-        <div class="poemas-grid">
-            
-            <a href="poema1.html" class="card-poema">
-                <h3>Caminhando com ele</h3>
-                <p>"Sozinha, mas não solitária, eu percorro o caminho.
-A cada passo, sinto sua mão abençoada a me guardar"</p>
-                <span class="ler-mais">Ler Poema Completo →</span>
-            </a>
-
-
+        <div class="poemas-grid" id="listaPoemas">
+            <p style="text-align: center; color: #777; grid-column: 1/-1;">Carregando poemas...</p>
         </div>
-
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
-    
-<div class="poemas-grid" id="listaPoemas"></div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCEggZoP5vk1JENjO8701pAFdBIBPB8gPQ",
+            authDomain: "somos-mulheres-em-movimento.firebaseapp.com",
+            projectId: "somos-mulheres-em-movimento",
+            storageBucket: "somos-mulheres-em-movimento.firebasestorage.app",
+            messagingSenderId: "427525655209",
+            appId: "1:427525655209:web:cc00a592936dbd3df9f7b8"
+        };
 
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="script.js"></script>
+        function renderizarPoemasNaLista() {
+            const container = document.getElementById('listaPoemas');
+            const db = firebase.firestore();
 
-<script>
-    function renderizarPoemasNaLista() {
-        const container = document.getElementById('listaPoemas');
-        const db = firebase.firestore();
+            db.collection("poemas").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
+                container.innerHTML = '';
+                if (snapshot.empty) {
+                    container.innerHTML = '<p style="text-align: center; color: #777; grid-column: 1/-1;">Nenhum poema publicado ainda.</p>';
+                    return;
+                }
 
-        db.collection("poemas").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
-            container.innerHTML = '';
-            if (snapshot.empty) {
-                container.innerHTML = '<p style="text-align: center; color: #777;">Nenhum poema publicado ainda.</p>';
-                return;
-            }
+                snapshot.forEach((doc) => {
+                    const poema = doc.data();
+                    const linhas = (poema.texto || '').split('\n');
+                    const primeiraLinha = linhas[0] || '';
+                    const segundaLinha = linhas[1] || '';
 
-            snapshot.forEach((doc) => {
-                const poema = doc.data();
-                const linhas = (poema.texto || '').split('\n');
-                const primeiraLinha = linhas[0] || '';
-                const segundaLinha = linhas[1] || '';
-
-                const card = document.createElement('a');
-                card.className = 'card-poema';
-                card.href = `poema1.html?id=${doc.id}`;
-                card.innerHTML = `
-                    <h3>${poema.titulo || 'Sem título'}</h3>
-                    <p>"${primeiraLinha}<br>${segundaLinha}..."</p>
-                    <span class="ler-mais">Ler Poema Completo →</span>
-                `;
-                container.appendChild(card);
+                    const card = document.createElement('a');
+                    card.className = 'card-poema';
+                    card.href = `poema1.html?id=${doc.id}`;
+                    card.innerHTML = `
+                        <h3>${poema.titulo || 'Sem título'}</h3>
+                        <p>"${primeiraLinha}<br>${segundaLinha}..."</p>
+                        <span class="ler-mais">Ler Poema Completo →</span>
+                    `;
+                    container.appendChild(card);
+                });
+            }, (erro) => {
+                console.error("Erro ao carregar poemas da lista:", erro);
             });
-        }, (erro) => {
-            console.error("Erro ao carregar poemas da lista:", erro);
-        });
-    }
+        }
 
-    document.addEventListener('DOMContentLoaded', renderizarPoemasNaLista);
-</script>
-
+        document.addEventListener('DOMContentLoaded', renderizarPoemasNaLista);
+    </script>
 </body>
 </html>

@@ -1,4 +1,13 @@
-// Garante a inicialização do Firebase com as credenciais
+// Configuração do Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyCEggZoP5vk1JENjO8701pAFdBIBPB8gPQ",
+    authDomain: "somos-mulheres-em-movimento.firebaseapp.com",
+    projectId: "somos-mulheres-em-movimento",
+    storageBucket: "somos-mulheres-em-movimento.firebasestorage.app",
+    messagingSenderId: "427525655209",
+    appId: "1:427525655209:web:cc00a592936dbd3df9f7b8"
+};
+
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -13,7 +22,7 @@ if (mobileMenuBtn) {
     });
 }
 
-// Buscar poemas em tempo real do Firestore
+// Renderiza a lista de poemas no painel
 function escutarPoemas() {
     db.collection("poemas").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
         const container = document.getElementById('poemasContainer');
@@ -31,29 +40,24 @@ function escutarPoemas() {
             const card = document.createElement('div');
             card.className = 'card-gerenciar';
             
-            // Tratamento de aspas para não quebrar o HTML interno
-            const tituloLimpo = (poema.titulo || '').replace(/"/g, '&quot;');
-            const textoLimpo = (poema.texto || '').replace(/"/g, '&quot;');
-            const autorLimpo = autor.replace(/"/g, '&quot;');
-
             card.innerHTML = `
                 <div>
-                    <h3>${poema.titulo || ''}</h3>
+                    <h3>${poema.titulo || 'Sem título'}</h3>
                     <p>${(poema.texto || '').replace(/\n/g, '<br>')}</p>
                     <small style="color: #7B141E; font-style: italic;">— ${autor}</small>
                 </div>
                 <div class="card-acoes" style="margin-top: 15px;">
-                    <button class="btn-acao btn-editar" data-id="${doc.id}">Editar</button>
-                    <button class="btn-acao btn-excluir" data-id="${doc.id}">Excluir</button>
+                    <button class="btn-acao btn-editar">Editar</button>
+                    <button class="btn-acao btn-excluir">Excluir</button>
                 </div>
             `;
 
-            // Adiciona evento ao botão Editar
+            // Ação de editar
             card.querySelector('.btn-editar').addEventListener('click', () => {
                 prepararEdicao(doc.id, poema.titulo || '', poema.texto || '', autor);
             });
 
-            // Adiciona evento ao botão Excluir
+            // Ação de excluir
             card.querySelector('.btn-excluir').addEventListener('click', () => {
                 excluirPoema(doc.id);
             });
@@ -61,15 +65,16 @@ function escutarPoemas() {
             container.appendChild(card);
         });
     }, (erro) => {
-        console.error("Erro ao buscar poemas:", erro);
+        console.error("Erro ao carregar poemas:", erro);
     });
 }
 
-// Salvar ou Atualizar Poema
+// Salvar ou Atualizar Poema no Firebase
 const poemaForm = document.getElementById('poemaForm');
 if (poemaForm) {
     poemaForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
         const id = document.getElementById('poemaId').value;
         const titulo = document.getElementById('tituloPoema').value;
         const texto = document.getElementById('conteudoPoema').value;
@@ -139,5 +144,4 @@ if (btnCancelar) {
     btnCancelar.addEventListener('click', limparFormulario);
 }
 
-// Iniciar a busca ao carregar a página
 document.addEventListener('DOMContentLoaded', escutarPoemas);

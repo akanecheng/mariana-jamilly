@@ -153,7 +153,7 @@ btnGoogleLogin.addEventListener("click", async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         
-        await firebase.auth().signInWithRedirect(provider);
+        await firebase.auth().signInWithPopup(provider);
 
     } catch (erro) {
         loading.style.display = "none";

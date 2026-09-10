@@ -76,6 +76,24 @@ function mostrarErro(texto) {
     mensagemErro.style.display = "block";
 }
 
+// Trata o retorno do redirecionamento
+firebase.auth().getRedirectResult().then(async (resultado) => {
+    if (resultado && resultado.user) {
+        const usuario = resultado.user;
+        const emailDigitado = usuario.email ? usuario.email.toLowerCase().trim() : "";
+        const eValido = EMAILS_AUTORIZADOS.some(e => e.toLowerCase().trim() === emailDigitado);
+
+        if (eValido) {
+            window.location.href = "configuracoes.html";
+        } else {
+            await firebase.auth().signOut();
+            mostrarErro("O e-mail (" + emailDigitado + ") não tem permissão de administrador.");
+        }
+    }
+}).catch((erro) => {
+    mostrarErro("Falha na autenticação: " + erro.message);
+});
+
 btnGoogleLogin.addEventListener("click", async () => {
     mensagemErro.style.display = "none";
     loading.style.display = "block";
@@ -83,28 +101,11 @@ btnGoogleLogin.addEventListener("click", async () => {
 
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
-        
-        // Força a persistência local da sessão
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        
-        // Executa o login
-        const resultado = await firebase.auth().signInWithPopup(provider);
-        const usuario = resultado.user;
-
-        if (usuario && usuario.email) {
-            const emailDigitado = usuario.email.toLowerCase().trim();
-            const eValido = EMAILS_AUTORIZADOS.some(e => e.toLowerCase().trim() === emailDigitado);
-
-            if (eValido) {
-                // Redireciona imediatamente após a confirmação
-                window.location.href = "configuracoes.html";
-            } else {
-                await firebase.auth().signOut();
-                mostrarErro("O e-mail (" + emailDigitado + ") não tem permissão de administrador.");
-            }
-        }
+        // Usa o fluxo por redirecionamento em vez de janela pop-up
+        await firebase.auth().signInWithRedirect(provider);
     } catch (erro) {
-        mostrarErro("Falha na autenticação: " + erro.message);
+        mostrarErro("Falha ao iniciar login: " + erro.message);
     }
 });
 </script>

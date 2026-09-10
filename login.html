@@ -143,7 +143,7 @@ const btnGoogleLogin = document.getElementById("btnGoogleLogin");
 const mensagemErro = document.getElementById("erro");
 const loading = document.getElementById("loading");
 
-// Login via Pop-up para evitar problemas de bloqueio no navegador
+// Login via Pop-up para evitar perda de sessão no navegador do celular
 btnGoogleLogin.addEventListener("click", async () => {
     mensagemErro.style.display = "none";
     loading.style.display = "block";
@@ -153,6 +153,7 @@ btnGoogleLogin.addEventListener("click", async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         
+        // signInWithPopup no lugar de signInWithRedirect
         await firebase.auth().signInWithPopup(provider);
 
     } catch (erro) {

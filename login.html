@@ -3,96 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Área Administrativa</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body {
-    font-family:'Poppins',sans-serif;
-    background:#FDF1F0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-.card {
-    background:#fff;
-    width:100%;
-    max-width:450px;
-    padding:40px 30px;
-    border-radius:24px;
-    text-align:center;
-    border:1px solid #FDDFDD;
-    box-shadow:0 15px 40px rgba(123,20,30,.08);
-}
-
-.logo {
-    font-family:'Playfair Display',serif;
-    font-size:32px;
-    color:#7B141E;
-    margin-bottom:10px;
-}
-
-.subtitulo {
-    color:#666;
-    margin-bottom:30px;
-}
-
-.btn-google {
-    width:100%;
-    border:none;
-    cursor:pointer;
-    padding:15px;
-    border-radius:40px;
-    background:#fff;
-    border:1px solid #dadce0;
-    font-weight:600;
-    font-size:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    transition:.3s;
-}
-
-.btn-google:hover {
-    transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.loading {
-    display:none;
-    margin-top:20px;
-    color:#7B141E;
-}
-
-.erro {
-    display:none;
-    margin-top:20px;
-    color:#c62828;
-    font-size:14px;
-}
-
-.voltar {
-    display:inline-block;
-    margin-top:25px;
-    color:#7B141E;
-    text-decoration:none;
-    font-weight:600;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',sans-serif; background:#FDF1F0; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
+.card { background:#fff; width:100%; max-width:450px; padding:40px 30px; border-radius:24px; text-align:center; border:1px solid #FDDFDD; box-shadow:0 15px 40px rgba(123,20,30,.08); }
+.logo { font-family:'Playfair Display',serif; font-size:32px; color:#7B141E; margin-bottom:10px; }
+.subtitulo { color:#666; margin-bottom:30px; }
+.btn-google { width:100%; border:none; cursor:pointer; padding:15px; border-radius:40px; background:#fff; border:1px solid #dadce0; font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:center; gap:10px; transition:.3s; }
+.btn-google:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.08); }
+.loading { display:none; margin-top:20px; color:#7B141E; }
+.erro { display:none; margin-top:20px; color:#c62828; font-size:14px; line-height:1.4; }
+.voltar { display:inline-block; margin-top:25px; color:#7B141E; text-decoration:none; font-weight:600; }
 </style>
 </head>
-
 <body>
 
 <div class="card">
@@ -109,7 +34,7 @@ body {
         Entrar com Google
     </button>
 
-    <div id="loading" class="loading">Verificando acesso...</div>
+    <div id="loading" class="loading">Autenticando...</div>
     <div id="erro" class="erro"></div>
 
     <a href="index.html" class="voltar">← Voltar ao site</a>
@@ -136,14 +61,21 @@ const EMAILS_AUTORIZADOS = [
     "polyanadesn02@gmail.com",
     "polyanadesouzaneves2@gmail.com",
     "polyanadesouza02@gmail.com",
-    "marianajamillynevesdeoliveira@gmail.com", "Mahmajamilly@gmail.com"
+    "marianajamillynevesdeoliveira@gmail.com",
+    "mahmajamilly@gmail.com"
 ];
 
 const btnGoogleLogin = document.getElementById("btnGoogleLogin");
 const mensagemErro = document.getElementById("erro");
 const loading = document.getElementById("loading");
 
-// Login via Pop-up para evitar perda de sessão no navegador do celular
+function mostrarErro(texto) {
+    loading.style.display = "none";
+    btnGoogleLogin.style.display = "flex";
+    mensagemErro.innerText = texto;
+    mensagemErro.style.display = "block";
+}
+
 btnGoogleLogin.addEventListener("click", async () => {
     mensagemErro.style.display = "none";
     loading.style.display = "block";
@@ -151,41 +83,28 @@ btnGoogleLogin.addEventListener("click", async () => {
 
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
+        
+        // Força a persistência local da sessão
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         
-        // signInWithPopup no lugar de signInWithRedirect
-        await firebase.auth().signInWithPopup(provider);
+        // Executa o login
+        const resultado = await firebase.auth().signInWithPopup(provider);
+        const usuario = resultado.user;
 
+        if (usuario && usuario.email) {
+            const emailDigitado = usuario.email.toLowerCase().trim();
+            const eValido = EMAILS_AUTORIZADOS.some(e => e.toLowerCase().trim() === emailDigitado);
+
+            if (eValido) {
+                // Redireciona imediatamente após a confirmação
+                window.location.href = "configuracoes.html";
+            } else {
+                await firebase.auth().signOut();
+                mostrarErro("O e-mail (" + emailDigitado + ") não tem permissão de administrador.");
+            }
+        }
     } catch (erro) {
-        loading.style.display = "none";
-        btnGoogleLogin.style.display = "flex";
-        mensagemErro.innerText = "Erro ao fazer login: " + erro.message;
-        mensagemErro.style.display = "block";
-    }
-});
-
-// Controle da sessão e autorização
-firebase.auth().onAuthStateChanged((usuario) => {
-    if (!usuario) {
-        loading.style.display = "none";
-        btnGoogleLogin.style.display = "flex";
-        return;
-    }
-
-    const email = usuario.email.toLowerCase().trim();
-    const autorizado = EMAILS_AUTORIZADOS.some(
-        adm => adm.toLowerCase().trim() === email
-    );
-
-    if (autorizado) {
-        window.location.replace("configuracoes.html");
-    } else {
-        firebase.auth().signOut().then(() => {
-            loading.style.display = "none";
-            btnGoogleLogin.style.display = "flex";
-            mensagemErro.innerText = "Este e-mail (" + email + ") não possui permissão de administrador.";
-            mensagemErro.style.display = "block";
-        });
+        mostrarErro("Falha na autenticação: " + erro.message);
     }
 });
 </script>

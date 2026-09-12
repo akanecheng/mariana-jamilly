@@ -154,6 +154,8 @@
             pointer-events: none;
             z-index: 2;
         }
+        
+        
 
         .hero-img img { 
             width: 100%; 
@@ -199,9 +201,9 @@
         .textoPerfilSecundario p{
             line-height: 1.8;
             color: #555;
-            text-align: center;
-            margin: 10px 0;
-            font-family: 'Playfair Display', serif;
+            text-align: justify;
+    margin: 10px 0;
+    font-family: 'Playfair Display', serif;
         }
 
         /* BIOGRAFIA */
@@ -273,24 +275,13 @@
             color: #4A4A4A;
         }
 
-        /* GRUPO VIP WHATSAPP */
-        .grupo-vip {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #F3C7BD 0%, #FDDFDD 100%);
-            text-align: center;
-        }
-        .vip-container { max-width: 700px; margin: 0 auto; }
-        .vip-container h2 { font-family: 'Playfair Display'; font-size: 32px; color: #7B141E; margin-bottom: 15px; }
-        .vip-container p { margin-bottom: 30px; line-height: 1.6; }
-        .whatsapp-btn { background-color: #25D366; }
-        .whatsapp-btn:hover { background-color: #128C7E; }
-
+        /* 
         /* FOOTER */
         footer {
             padding: 60px 0;
-            background-color: #FDF1F0;
-            border-top: 1px solid #FDDFDD;
-            text-align: center;
+    background-color: #FDDFDD;
+    
+    text-align: center;
         }
         .social-links { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
         .social-item { text-align: center; color: #7B141E; transition: 0.3s; text-decoration: none; }
@@ -335,7 +326,8 @@
                 box-shadow: 0 5px 10px rgba(0,0,0,0.1);
             }
             .nav-menu.active { display: flex; }
-            .secaoFotoTexto .FlexContainer { flex-direction: column; text-align: center; }
+            .secaoFotoTexto .FlexContainer { 
+                flex-direction: column; text-align: center; }
             .fotoPerfilSecundaria img { box-shadow: none; }
         }
     </style>
@@ -430,15 +422,7 @@
         </div>
     </section>
 
-    <!-- GRUPO VIP -->
-    <section class="grupo-vip">
-        <div class="container vip-container">
-            <h2>Comunidade VIP no WhatsApp</h2>
-            <p>Grande Destaque: Pré-Lançamento (Mulheres em Movimento)<br><br>🔗 ENTRAR NO GRUPO VIP (ACESSO EXCLUSIVO)</p>
-            <a href="https://chat.whatsapp.com/COgzoQQzvGF0dTVQZWko67?mode=gi_t" target="_blank" class="btn whatsapp-btn">Quero entrar no Grupo VIP</a>
-        </div>
-    </section>
-
+    
     <!-- FOOTER -->
     <footer id="contato">
         <div class="container">

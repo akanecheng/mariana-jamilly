@@ -103,11 +103,29 @@ btnGoogleLogin.addEventListener("click", async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         // Usa o fluxo por redirecionamento em vez de janela pop-up
-        await firebase.auth().signInWithRedirect(provider);
+        await firebase.auth().signInWithPopup(provider);
     } catch (erro) {
         mostrarErro("Falha ao iniciar login: " + erro.message);
     }
 });
+
+firebase.auth().onAuthStateChanged((user) => {
+
+    if (!user) return;
+
+    const email = user.email.toLowerCase().trim();
+
+    const autorizado = EMAILS_AUTORIZADOS.some(
+        e => e.toLowerCase().trim() === email
+    );
+
+    if (autorizado) {
+        window.location.href = "configuracoes.html";
+    }
+});
+
+
+
 </script>
 
 </body>

@@ -63,7 +63,7 @@ const EMAILS_AUTORIZADOS = [
     "polyanadesouza02@gmail.com",
     "marianajamillynevesdeoliveira@gmail.com",
     "mahmajamilly@gmail.com"
-];
+].map(e => e.toLowerCase().trim());
 
 const btnGoogleLogin = document.getElementById("btnGoogleLogin");
 const mensagemErro = document.getElementById("erro");
@@ -76,12 +76,12 @@ function mostrarErro(texto) {
     mensagemErro.style.display = "block";
 }
 
-// Trata o retorno do redirecionamento
+// 1. Processa o resultado do redirecionamento assim que a página recarrega após o login do Google
 firebase.auth().getRedirectResult().then(async (resultado) => {
     if (resultado && resultado.user) {
         const usuario = resultado.user;
         const emailDigitado = usuario.email ? usuario.email.toLowerCase().trim() : "";
-        const eValido = EMAILS_AUTORIZADOS.some(e => e.toLowerCase().trim() === emailDigitado);
+        const eValido = EMAILS_AUTORIZADOS.includes(emailDigitado);
 
         if (eValido) {
             window.location.href = "configuracoes.html";
@@ -91,9 +91,21 @@ firebase.auth().getRedirectResult().then(async (resultado) => {
         }
     }
 }).catch((erro) => {
+    console.error("Erro no redirect:", erro);
     mostrarErro("Falha na autenticação: " + erro.message);
 });
 
+// 2. Monitora se já existe uma sessão ativa
+firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+        const email = user.email ? user.email.toLowerCase().trim() : "";
+        if (EMAILS_AUTORIZADOS.includes(email)) {
+            window.location.href = "configuracoes.html";
+        }
+    }
+});
+
+// 3. Ao clicar no botão, usa REDIRECIONAMENTO em vez de POP-UP (Evita o erro de sessionStorage)
 btnGoogleLogin.addEventListener("click", async () => {
     mensagemErro.style.display = "none";
     loading.style.display = "block";
@@ -102,31 +114,14 @@ btnGoogleLogin.addEventListener("click", async () => {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        // Usa o fluxo por redirecionamento em vez de janela pop-up
-        await firebase.auth().signInWithPopup(provider);
+        
+        // Redireciona para o login do Google (mais seguro contra bloqueios de armazenamento)
+        await firebase.auth().signInWithRedirect(provider);
     } catch (erro) {
+        console.error("Erro ao iniciar login:", erro);
         mostrarErro("Falha ao iniciar login: " + erro.message);
     }
 });
-
-firebase.auth().onAuthStateChanged((user) => {
-
-    if (!user) return;
-
-    const email = user.email.toLowerCase().trim();
-
-    const autorizado = EMAILS_AUTORIZADOS.some(
-        e => e.toLowerCase().trim() === email
-    );
-
-    if (autorizado) {
-        window.location.href = "configuracoes.html";
-    }
-});
-
-
-
 </script>
-
 </body>
 </html>

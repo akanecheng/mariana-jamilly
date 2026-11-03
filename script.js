@@ -165,24 +165,51 @@ function configurarMenuMobile() {
 // ADMIN AUTHENTICATION
 // ==========================================
 
-function configurarAdministrador() {
-    auth.onAuthStateChanged(usuario => {
-        const linkAdmin = document.getElementById('link-admin');
-        const linkAdminMobile = document.getElementById('link-admin-mobile');
+// ==========================================
+// ADMIN AUTHENTICATION (VERSÃO INTELIGENTE)
+// ==========================================
 
+function configurarAdministrador() {
+    const linkAdmin = document.getElementById('link-admin');
+    const linkAdminMobile = document.getElementById('link-admin-mobile');
+
+    auth.onAuthStateChanged(usuario => {
         if (usuario) {
             const email = usuario.email ? usuario.email.toLowerCase().trim() : '';
             const ehAdmin = EMAILS_ADM.includes(email);
 
-            console.log('>>> E-mail logado com sucesso:', email);
+            console.log('>>> E-mail logado:', email);
             console.log('>>> É administrador?', ehAdmin);
 
-            if (linkAdmin) linkAdmin.style.display = ehAdmin ? 'block' : 'none';
-            if (linkAdminMobile) linkAdminMobile.style.display = ehAdmin ? 'block' : 'none';
-        } else {
-            console.log('>>> Nenhum usuário logado no momento.');
-            if (linkAdmin) linkAdmin.style.display = 'none';
-            if (linkAdminMobile) linkAdminMobile.style.display = 'none';
+            if (ehAdmin) {
+                // Se for admin, mostra o botão de configurações normalmente
+                if (linkAdmin) {
+                    linkAdmin.style.display = 'inline-flex';
+                    linkAdmin.href = 'configuracoes.html';
+                    linkAdmin.innerHTML = '<i class="fa-solid fa-gear text-xs"></i> Configurações';
+                }
+                if (linkAdminMobile) {
+                    linkAdminMobile.style.display = 'block';
+                    linkAdminMobile.href = 'configuracoes.html';
+                    linkAdminMobile.innerHTML = '<i class="fa-solid fa-gear mr-2"></i> Configurações';
+                }
+                return;
+            }
+        }
+
+        // SE A SESSÃO FALHAR OU NÃO HOUVER USUÁRIO LOGADO:
+        // Em vez de sumir, o botão vira um acesso direto para a página de login/autenticação rápida
+        console.log('>>> Sessão não detectada. Ativando botão de acesso rápido ao painel.');
+        
+        if (linkAdmin) {
+            linkAdmin.style.display = 'inline-flex';
+            linkAdmin.href = 'login.html';
+            linkAdmin.innerHTML = '<i class="fa-solid fa-lock text-xs"></i> Entrar Admin';
+        }
+        if (linkAdminMobile) {
+            linkAdminMobile.style.display = 'block';
+            linkAdminMobile.href = 'login.html';
+            linkAdminMobile.innerHTML = '<i class="fa-solid fa-lock mr-2"></i> Entrar Admin';
         }
     });
 }
@@ -196,3 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
     configurarMenuMobile();
     configurarAdministrador();
 });
+
+function configurarAdministrador() {
+    const linkAdmin = document.getElementById('link-admin');
+    const linkAdminMobile = document.getElementById('link-admin-mobile');
+
+    // FORÇANDO O APARECIMENTO TEMPORARIAMENTE
+    if (linkAdmin) linkAdmin.style.display = 'inline-flex';
+    if (linkAdminMobile) linkAdminMobile.style.display = 'block';
+
+    console.log("Forçando o botão a aparecer para teste de design!");
+}

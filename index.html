@@ -8,10 +8,12 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="style.css">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,85 +45,6 @@
             }
         }
     </script>
-
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #FAF6F0;
-            color: #332A2B;
-            overflow-x: hidden;
-        }
-
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* Glassmorphism Header */
-        .glass-header {
-            background: rgba(250, 246, 240, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(214, 127, 121, 0.15);
-        }
-
-        /* Gradient Text Helper */
-        .text-gradient {
-            background: linear-gradient(135deg, #6B121A 0%, #B75B56 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Custom Hover Transitions */
-        .btn-primary {
-            background: linear-gradient(135deg, #6B121A 0%, #8A1E27 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(107, 18, 26, 0.2);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(107, 18, 26, 0.35);
-            background: linear-gradient(135deg, #7B141E 0%, #9B242E 100%);
-        }
-
-        .btn-outline {
-            border: 1px solid #6B121A;
-            color: #6B121A;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline:hover {
-            background-color: #6B121A;
-            color: #FFFFFF;
-            transform: translateY(-2px);
-        }
-
-        /* Custom image frame decorative element */
-        .frame-decorative::before {
-            content: '';
-            position: absolute;
-            inset: -12px;
-            border: 1px solid rgba(214, 127, 121, 0.3);
-            border-radius: 2rem;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Dynamic styles for Firebase dynamic blocks */
-        #viewPerfilSecundarioParagrafos p,
-        #viewBioParagrafos p,
-        #viewDevocionalParagrafos p {
-            margin-bottom: 1.25rem;
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        #viewBioParagrafos p {
-            font-family: 'Playfair Display', serif;
-            color: #4A3E3F;
-            font-size: 1.125rem;
-        }
-    </style>
 </head>
 <body class="antialiased selection:bg-brand-roseLight selection:text-brand-wine">
 
@@ -145,16 +68,13 @@
                 <a href="#sobre" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Sobre</a>
                 <a href="#livro" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Livro</a>
                 <a href="poemas.html" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Poemas</a>
-                <a href="#devocional" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Devocional</a>
-                
+                <a href="#devocional" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Mentoria</a>
                 <a href="#contato" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Contato</a>
                 
-<!-- Substitua a tag <li> por uma <div> -->
-                <div id="link-admin" style="display: none;">
-                    <a href="configuracoes.html" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-wine bg-brand-roseLight px-3 py-1.5 rounded-full hover:bg-brand-rose hover:text-white transition-all">
-                        <i class="fa-solid fa-gear text-xs"></i> Configurações
-                    </a>
-                </div>
+                <!-- Link Admin Desktop Corrigido -->
+                <a href="configuracoes.html" id="link-admin" style="display: none;" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-wine bg-brand-roseLight px-3 py-1.5 rounded-full hover:bg-brand-rose hover:text-white transition-all">
+                    <i class="fa-solid fa-gear text-xs"></i> Configurações
+                </a>
             </nav>
 
             <!-- MOBILE MENU BUTTON -->
@@ -166,36 +86,26 @@
         <!-- MOBILE MENU DROPDOWN -->
         <div id="nav-list" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-b border-gray-100 px-6 py-6 transition-all duration-300">
             <div class="flex flex-col space-y-4">
-          
-                
                 <a href="#inicio" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Início</a>
                 <a href="#sobre" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Sobre</a>
                 <a href="#livro" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Livro</a>
                 <a href="poemas.html" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Poemas</a>
-                <a href="#devocional" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Devocional</a>
+                <a href="#devocional" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Mentoria</a>
                 <a href="#contato" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Contato</a>
-                <a href="configuracoes.html"
-   id="link-admin-mobile"
-   style="display: none;"
-   class="mobile-link text-base font-bold text-brand-wine">
-    <i class="fa-solid fa-gear mr-2"></i>
-    Configurações
-</a>
-                
+                <a href="configuracoes.html" id="link-admin-mobile" style="display: none;" class="mobile-link text-base font-bold text-brand-wine">
+                    <i class="fa-solid fa-gear mr-2"></i> Configurações
+                </a>
             </div>
         </div>
     </header>
 
     <!-- HERO SECTION -->
     <section class="hero pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden" id="inicio">
-        <!-- Background Decorative Elements -->
         <div class="absolute top-1/4 -left-20 w-80 h-80 bg-brand-roseLight/50 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-10 right-0 w-96 h-96 bg-brand-rose/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-                
-                <!-- HERO TEXT -->
                 <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-roseLight/80 text-brand-wine text-xs font-semibold tracking-wider uppercase mb-6 border border-brand-rose/20">
                         <span class="w-2 h-2 rounded-full bg-brand-wine animate-pulse"></span>
@@ -212,8 +122,7 @@
 
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
                         <a href="#livro" class="btn-primary text-white font-medium px-8 py-3.5 rounded-full text-sm tracking-wide inline-flex items-center gap-2">
-                            <i class="fa-solid fa-book-open text-xs"></i>
-                            Conhecer a Obra
+                            <i class="fa-solid fa-book-open text-xs"></i> Conhecer a Obra
                         </a>
                         <a href="#sobre" class="btn-outline font-medium px-8 py-3.5 rounded-full text-sm tracking-wide inline-flex items-center gap-2">
                             Minha Trajetória
@@ -221,7 +130,6 @@
                     </div>
                 </div>
 
-                <!-- HERO IMAGE -->
                 <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
                     <div class="relative w-full max-w-sm sm:max-w-md frame-decorative">
                         <div class="relative z-10 rounded-3xl overflow-hidden shadow-soft-wine bg-white p-3 border border-brand-roseLight">
@@ -231,7 +139,6 @@
                             </div>
                         </div>
 
-                        <!-- Floating Badge Decorative -->
                         <div class="absolute -bottom-6 -left-6 z-20 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-brand-roseLight hidden sm:flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-brand-roseLight flex items-center justify-center text-brand-wine">
                                 <i class="fa-solid fa-feather-pointed text-lg"></i>
@@ -243,7 +150,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -252,9 +158,7 @@
     <section class="py-20 bg-white relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div class="bg-brand-cardBg rounded-3xl p-8 sm:p-12 lg:p-16 border border-brand-roseLight shadow-soft-wine relative">
-                
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-                    <!-- FOTO PERFIL SECUNDÁRIA -->
                     <div class="lg:col-span-5 flex justify-center">
                         <div class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-md group">
                             <img id="viewPerfilSecundarioImg" src="conexaoFoto.jpg" alt="Mariana Jamilly - Conexão" class="w-full h-auto object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500">
@@ -262,7 +166,6 @@
                         </div>
                     </div>
 
-                    <!-- TEXTO PERFIL SECUNDÁRIO -->
                     <div class="lg:col-span-7 flex flex-col justify-center">
                         <span class="text-brand-rose font-semibold text-xs tracking-widest uppercase mb-3 block">
                             Mensagem & Propósito
@@ -273,11 +176,10 @@
                         </h2>
 
                         <div id="viewPerfilSecundarioParagrafos" class="text-gray-600 leading-relaxed space-y-4">
-                            <!-- Inserido dinamicamente pelo script.js -->
+                            <!-- Firebase JS -->
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -285,23 +187,14 @@
     <!-- BIO (HISTÓRIA) -->
     <section class="py-24 relative" id="sobre">
         <div class="max-w-4xl mx-auto px-6 sm:px-8 text-center">
-            
-            <span class="text-brand-rose font-semibold text-xs tracking-widest uppercase mb-3 block">
-                Biografia
-            </span>
-
-            <h2 id="viewBioTitulo" class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-wine mb-8">
-                Conheça um pouco da minha história
-            </h2>
+            <span class="text-brand-rose font-semibold text-xs tracking-widest uppercase mb-3 block">Biografia</span>
+            <h2 id="viewBioTitulo" class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-wine mb-8">Conheça um pouco da minha história</h2>
 
             <div class="relative">
-                <!-- Quote mark decorative background -->
                 <i class="fa-solid fa-quote-left absolute -top-10 -left-6 text-7xl text-brand-roseLight opacity-60 -z-10"></i>
-
                 <div id="viewBioParagrafos" class="text-lg leading-relaxed text-gray-700 font-serif italic space-y-6">
-                    <!-- Conteúdo dinâmico via script.js -->
+                    <!-- Firebase JS -->
                 </div>
-
                 <i class="fa-solid fa-quote-right absolute -bottom-10 -right-6 text-7xl text-brand-roseLight opacity-60 -z-10"></i>
             </div>
 
@@ -310,32 +203,24 @@
                 <div class="w-2.5 h-2.5 rounded-full bg-brand-rose"></div>
                 <div class="h-px w-12 bg-brand-rose/30"></div>
             </div>
-
         </div>
     </section>
 
     <!-- SOBRE O LIVRO -->
     <section class="py-24 bg-white relative" id="livro">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            
             <div class="bg-gradient-to-br from-brand-cream to-white rounded-3xl p-8 sm:p-12 lg:p-16 border border-brand-roseLight/60 shadow-soft-wine">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <!-- CAPA DO LIVRO -->
                     <div class="lg:col-span-5 flex justify-center">
                         <div class="relative group">
-                            <!-- Subtle Glow Behind Book -->
                             <div class="absolute inset-0 bg-brand-rose/20 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                            
                             <img id="viewLivroImg" src="capLvr.jpg" alt="Livro Mulheres em Movimento" class="relative z-10 w-60 sm:w-72 lg:w-80 rounded-xl shadow-book transform group-hover:-translate-y-2 group-hover:rotate-1 transition-all duration-500">
                         </div>
                     </div>
 
-                    <!-- DETALHES DO LIVRO -->
                     <div class="lg:col-span-7 flex flex-col items-start text-left">
                         <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-roseLight text-brand-wine text-xs font-bold uppercase tracking-wider mb-4">
-                            <i class="fa-solid fa-book text-xs"></i>
-                            Obra em Destaque
+                            <i class="fa-solid fa-book text-xs"></i> Obra em Destaque
                         </span>
 
                         <h3 id="viewLivroTitulo" class="font-serif text-3xl sm:text-4xl lg:text-5xl text-brand-wine font-bold mb-6">
@@ -343,7 +228,7 @@
                         </h3>
 
                         <p id="viewLivroDescricao" class="text-base sm:text-lg text-gray-600 leading-relaxed mb-8">
-                            <!-- Conteúdo dinâmico via script.js -->
+                            <!-- Firebase JS -->
                         </p>
 
                         <a id="viewLivroBtn" href="#" target="_blank" class="btn-primary text-white font-semibold px-8 py-4 rounded-full text-sm tracking-wide inline-flex items-center gap-3">
@@ -351,58 +236,105 @@
                             <i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- GRUPO DEVOCIONAL -->
+    <!-- REESTRUTURAÇÃO: JARDIM DAS VIRTUOSAS (MENTORIA) -->
     <section class="py-24 bg-brand-cream relative" id="devocional">
-        <div class="max-w-4xl mx-auto px-6 sm:px-8 text-center">
-            
-            <div class="bg-gradient-to-b from-white to-brand-roseLight/20 p-10 sm:p-14 rounded-3xl border border-brand-rose/20 shadow-soft-wine">
+        <div class="max-w-5xl mx-auto px-6 sm:px-8">
+            <div class="bg-white p-8 sm:p-12 lg:p-16 rounded-3xl border border-brand-rose/20 shadow-soft-wine">
                 
-                <div class="w-16 h-16 bg-brand-roseLight text-brand-wine rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl shadow-sm">
-                    🍀
+                <!-- BLOCO 1: O TOPO -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16 pb-12 border-b border-brand-roseLight">
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-brand-roseLight shadow-md">
+                            <img src="mari.jpg" alt="Mariana Jamilly" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 text-center lg:text-left">
+                        <span class="text-brand-rose font-semibold text-xs tracking-widest uppercase mb-2 block">🌸 Mentoria Exclusiva</span>
+                        <h2 id="viewDevocionalTitulo" class="font-serif text-3xl sm:text-4xl text-brand-wine font-bold mb-4">
+                            Jardim das Virtuosas: Caminho da Plenitude
+                        </h2>
+
+                        <p class="text-gray-700 italic font-serif text-lg leading-relaxed mb-6">
+                            "Até quando você vai permitir que as marcas do ontem definam o tamanho do seu amanhã? Existe um jardim esperando para florescer em você."
+                        </p>
+
+                        <a href="https://wa.me/SEU_NUMERO_AQUI?text=Ol%C3%A1%21%20Quero%20fazer%20parte%20da%20Turma%201%20da%20Mentoria%20Jardim%20das%20Virtuosas." target="_blank" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-3.5 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl transition-all">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Quero fazer parte da Turma 1</span>
+                        </a>
+                    </div>
                 </div>
 
-                <h2 id="viewDevocionalTitulo" class="font-serif text-3xl sm:text-4xl text-brand-wine font-bold mb-6">
-                    Jardim das Virtuosas
-                </h2>
+                <!-- BLOCO 2: PARA QUEM É ESTA MENTORIA? -->
+                <div class="mb-16">
+                    <h3 class="font-serif text-2xl text-brand-wine font-bold text-center mb-8">
+                        Você se identifica com alguma destas situações?
+                    </h3>
 
-                <div id="viewDevocionalParagrafos" class="text-gray-600 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-                    <!-- Conteúdo dinâmico via script.js -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-brand-roseLight flex flex-col justify-between">
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                🥀 O passado ainda parece ditar as regras do seu presente e das suas escolhas.
+                            </p>
+                        </div>
+
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-brand-roseLight flex flex-col justify-between">
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                🥀 Você carrega pesos, culpas ou expectativas frustradas que te impedem de avançar.
+                            </p>
+                        </div>
+
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-brand-roseLight flex flex-col justify-between">
+                            <p class="text-gray-700 text-sm leading-relaxed">
+                                🥀 Sente que Deus tem algo novo para você, mas se sente travada ou sem direção.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-roseLight/60 p-6 rounded-2xl text-center border border-brand-rose/20">
+                        <p class="text-brand-darkWine font-medium text-base">
+                            🤍 <strong>A verdade:</strong> Você não precisa continuar carregando esse fardo sozinha. Existe um caminho de graça e recomeço.
+                        </p>
+                    </div>
                 </div>
 
-                <a id="viewDevocionalBtn" href="#" target="_blank" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                    <span>Quero Fazer Parte</span>
-</a>
+                <!-- BLOCO 3: A JORNADA & CONTEÚDO DINÂMICO DO FIREBASE -->
+                <div class="text-center">
+                              <h3 class="font-serif text-2xl text-brand-wine font-bold mb-4">
+                        A Jornada: Os Pilares da Mentoria
+                    </h3>
+                    <p class="text-brand-rose font-semibold text-sm mb-6 uppercase tracking-wider">Em 3 meses de acompanhamento</p>
+
+                    <div id="viewDevocionalParagrafos" class="text-gray-600 text-base sm:text-lg leading-relaxed mb-8 max-w-3xl mx-auto text-left">
+                        <!-- Conteúdo injetado via script.js -->
+                    </div>
+
+                    <!-- BOTÃO WHATSAPP MANTIDO NO FINAL -->
+                    <a id="viewDevocionalBtn" href="https://wa.me/SEU_NUMERO_AQUI?text=Ol%C3%A1%21%20Quero%20fazer%20parte%20da%20Turma%201%20da%20Mentoria%20Jardim%20das%20Virtuosas." target="_blank" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Quero Fazer Parte</span>
+                    </a>
+                </div>
 
             </div>
-
         </div>
     </section>
-
-    <!-- FOOTER -->
+    
     <footer class="bg-brand-darkWine text-white py-16 relative overflow-hidden" id="contato">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-            
             <div class="flex flex-col items-center text-center max-w-2xl mx-auto">
-                
-                <span class="font-serif text-3xl font-bold text-brand-roseLight mb-2">
-                    Mariana Jamilly
-                </span>
-                
+                <span class="font-serif text-3xl font-bold text-brand-roseLight mb-2">Mariana Jamilly</span>
                 <p class="text-brand-roseLight/80 text-sm mb-8">
                     Acompanhe minha rotina, lançamentos e novos projetos nas redes sociais:
                 </p>
 
-                <!-- SOCIAL LINKS -->
                 <div class="flex flex-wrap justify-center items-center gap-6 mb-12">
-                    
                     <a href="https://www.instagram.com/marianajamilly.oficial?igsh=MTk4dnRyM21mb2xocg==" target="_blank" class="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 transition-all group">
                         <i class="fa-brands fa-instagram text-xl text-pink-300 group-hover:scale-110 transition-transform"></i>
                         <span class="text-sm font-medium text-white">@Instagram</span>
@@ -417,24 +349,20 @@
                         <i class="fa-solid fa-envelope text-xl text-amber-200 group-hover:scale-110 transition-transform"></i>
                         <span class="text-sm font-medium text-white">E-mail</span>
                     </a>
-
                 </div>
                 
-                <div class="w-full h-px bg-white/10 mb-8"></div>
-
-                <p class="text-xs text-brand-roseLight/60">
-                    &copy; 2026 Mariana Jamilly. Todos os direitos reservados.
-                </p>
-
+            <div class="w-full h-px bg-white/10 mb-8"></div>
+                <p class="text-xs text-brand-roseLight/60">&copy; 2026 Mariana Jamilly. Todos os direitos reservados.</p>
             </div>
-
         </div>
     </footer>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
-<script src="script.js"></script>
-    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Script Principal -->
+    <script src="script.js"></script>
 </body>
-</html>
+</html>    

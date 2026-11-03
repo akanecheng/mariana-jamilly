@@ -115,13 +115,26 @@ btnGoogleLogin.addEventListener("click", async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         
-        // Redireciona para o login do Google (mais seguro contra bloqueios de armazenamento)
-        await firebase.auth().signInWithRedirect(provider);
+        // Troca para Popup para não perder o estado da página no telemóvel
+        const resultado = await firebase.auth().signInWithPopup(provider);
+        
+        if (resultado && resultado.user) {
+            const emailDigitado = resultado.user.email ? resultado.user.email.toLowerCase().trim() : "";
+            const eValido = EMAILS_AUTORIZADOS.includes(emailDigitado);
+
+            if (eValido) {
+                window.location.href = "configuracoes.html";
+            } else {
+                await firebase.auth().signOut();
+                mostrarErro("O e-mail (" + emailDigitado + ") não tem permissão de administrador.");
+            }
+        }
     } catch (erro) {
         console.error("Erro ao iniciar login:", erro);
         mostrarErro("Falha ao iniciar login: " + erro.message);
     }
 });
 </script>
+
 </body>
 </html>

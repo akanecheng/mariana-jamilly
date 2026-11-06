@@ -1,129 +1,187 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poemas - Mariana Virtudes</title>
+    <title>Poemas - Mariana Jamilly</title>
     
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #FDF1F0;
-            color: #4A4A4A;
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            wine: '#6B121A',
+                            darkWine: '#4A0C12',
+                            rose: '#D67F79',
+                            roseLight: '#F7E7E5',
+                            accent: '#C86B65',
+                            cream: '#FAF6F0',
+                            cardBg: '#FCF8F7'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'soft-wine': '0 20px 40px -15px rgba(107, 18, 26, 0.08)',
+                        'book': '15px 20px 35px -5px rgba(74, 12, 18, 0.25)',
+                        'card-hover': '0 25px 50px -12px rgba(107, 18, 26, 0.12)'
+                    }
+                }
+            }
         }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-
-        .poemas-header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .poemas-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            color: #7B141E;
-            margin-bottom: 10px;
-        }
-
-        .poemas-header p {
-            font-style: italic;
-            color: #D67F79;
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 0 10px;
-            line-height: 1.8;
-        }
-
-        .poemas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .card-poema {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(123, 20, 30, 0.05);
-            transition: 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid transparent;
-            height: 100%;
-        }
-
-        .card-poema:hover {
-            transform: translateY(-5px);
-            border-color: #FDDFDD;
-            box-shadow: 0 10px 25px rgba(123, 20, 30, 0.1);
-        }
-
-        .card-poema h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: #7B141E;
-            margin-bottom: 15px;
-        }
-
-        .card-poema p {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #666;
-            flex-grow: 1;
-            margin-bottom: 20px;
-        }
-
-        .ler-mais {
-            font-size: 13px;
-            font-weight: 600;
-            color: #D67F79;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-voltar {
-            display: inline-block;
-            margin-bottom: 20px;
-            text-decoration: none;
-            color: #7B141E;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        @media (max-width: 600px) {
-            .poemas-header h1 { font-size: clamp(2rem, 5vw, 42px); }
-            .container { padding: 20px 18px; }
-            .card-poema { padding: 25px; }
-        }
-    </style>
+    </script>
 </head>
-<body>
+<body class="antialiased selection:bg-brand-roseLight selection:text-brand-wine min-h-screen flex flex-col justify-between">
 
-    <div class="container">
-        <header class="poemas-header">
-            <a href="index.html" class="btn-voltar">← Voltar para o Início</a>
-            <h1>Poesias e Florescimentos</h1>
-            <p>"Para além do movimento, cultivo o silêncio. Aqui compartilho versos sobre a vida, a fé e os detalhes que os olhos comuns não veem."</p>
-        </header>
+    <!-- HEADER (Idêntico ao index.html) -->
+    <header class="glass-header fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
+            
+            <!-- LOGO -->
+            <a href="index.html#inicio" class="group flex flex-col focus:outline-none">
+                <span class="font-serif text-2xl font-bold tracking-tight text-brand-wine group-hover:text-brand-rose transition-colors">
+                    Mariana Jamilly
+                </span>
+                <span id="siteLogoSub" class="text-[10px] uppercase tracking-widest text-brand-rose font-semibold -mt-1">
+                    Autora & Coautora
+                </span>
+            </a>
 
-        <div class="poemas-grid" id="listaPoemas">
-            <p style="text-align: center; color: #777; grid-column: 1/-1;">Carregando poemas...</p>
+            <!-- NAV MENU - DESKTOP -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html#inicio" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Início</a>
+                <a href="index.html#sobre" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Sobre</a>
+                <a href="index.html#livro" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Livro</a>
+                <a href="poemas.html" class="text-sm font-medium text-brand-wine font-semibold relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-brand-rose">Poemas</a>
+                <a href="index.html#devocional" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Mentoria</a>
+                <a href="index.html#contato" class="text-sm font-medium text-gray-700 hover:text-brand-wine transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-rose hover:after:w-full after:transition-all">Contato</a>
+                
+                <!-- Link Admin Desktop -->
+                <a href="configuracoes.html" id="link-admin" style="display: none;" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-wine bg-brand-roseLight px-3 py-1.5 rounded-full hover:bg-brand-rose hover:text-white transition-all">
+                    <i class="fa-solid fa-gear text-xs"></i> Configurações
+                </a>
+            </nav>
+
+            <!-- MOBILE MENU BUTTON -->
+            <button class="md:hidden p-2 rounded-lg text-brand-wine focus:outline-none focus:ring-2 focus:ring-brand-rose/50" id="mobile-menu" aria-label="Abrir menu">
+                <i class="fa-solid fa-bars-staggered text-2xl" id="menu-icon"></i>
+            </button>
         </div>
-    </div>
 
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="nav-list" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-b border-gray-100 px-6 py-6 transition-all duration-300">
+            <div class="flex flex-col space-y-4">
+                <a href="index.html#inicio" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Início</a>
+                <a href="index.html#sobre" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Sobre</a>
+                <a href="index.html#livro" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Livro</a>
+                <a href="poemas.html" class="mobile-link text-base font-bold text-brand-wine">Poemas</a>
+                <a href="index.html#devocional" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Mentoria</a>
+                <a href="index.html#contato" class="mobile-link text-base font-medium text-gray-800 hover:text-brand-wine">Contato</a>
+                <a href="configuracoes.html" id="link-admin-mobile" style="display: none;" class="mobile-link text-base font-bold text-brand-wine">
+                    <i class="fa-solid fa-gear mr-2"></i> Configurações
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL - POEMAS -->
+    <main class="pt-32 pb-20 lg:pt-40 lg:pb-28 flex-grow">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+            
+            <!-- BOTÃO DE VOLTAR PARA O INÍCIO -->
+            <div class="mb-8">
+                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-wine bg-brand-roseLight px-4 py-2 rounded-full hover:bg-brand-rose hover:text-white transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left text-xs"></i>
+                    <span>Voltar para o Início</span>
+                </a>
+            </div>
+
+            <!-- HEADER DA PÁGINA -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-roseLight/80 text-brand-wine text-xs font-semibold tracking-wider uppercase mb-4 border border-brand-rose/20">
+                    <i class="fa-solid fa-feather-pointed text-xs"></i>
+                    <span>Coleção de Versos</span>
+                </span>
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-darkWine leading-tight mb-6">
+                    Poesias e Florescimentos
+                </h1>
+                <p class="text-base sm:text-lg text-gray-600 font-serif italic leading-relaxed">
+                    "Para além do movimento, cultivo o silêncio. Aqui compartilho versos sobre a vida, a fé e os detalhes que os olhos comuns não veem."
+                </p>
+                <div class="flex items-center justify-center gap-3 mt-8">
+                    <div class="h-px w-12 bg-brand-rose/30"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-brand-rose"></div>
+                    <div class="h-px w-12 bg-brand-rose/30"></div>
+                </div>
+            </div>
+
+            <!-- GRID DE POEMAS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="listaPoemas">
+                <div class="col-span-full text-center text-gray-500 py-12">
+                    <i class="fa-solid fa-circle-notch animate-spin text-2xl text-brand-rose mb-3"></i>
+                    <p class="text-sm">Carregando poemas...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER (Idêntico ao index.html) -->
+    <footer class="bg-brand-darkWine text-white py-16 relative overflow-hidden" id="contato">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div class="flex flex-col items-center text-center max-w-2xl mx-auto">
+                <span class="font-serif text-3xl font-bold text-brand-roseLight mb-2">Mariana Jamilly</span>
+                <p class="text-brand-roseLight/80 text-sm mb-8">
+                    Acompanhe minha rotina, lançamentos e novos projetos nas redes sociais:
+                </p>
+
+                <div class="flex flex-wrap justify-center items-center gap-6 mb-12">
+                    <a href="https://www.instagram.com/marianajamilly.oficial?igsh=MTk4dnRyM21mb2xocg==" target="_blank" class="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 transition-all group">
+                        <i class="fa-brands fa-instagram text-xl text-pink-300 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-sm font-medium text-white">@Instagram</span>
+                    </a>
+
+                    <a href="https://www.youtube.com/@Marianajamilly.oficial" target="_blank" class="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 transition-all group">
+                        <i class="fa-brands fa-youtube text-xl text-red-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-sm font-medium text-white">YouTube</span>
+                    </a>
+
+                    <a href="mailto:marianajamillynevesdeoliveira@gmail.com" class="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 transition-all group">
+                        <i class="fa-solid fa-envelope text-xl text-amber-200 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-sm font-medium text-white">E-mail</span>
+                    </a>
+                </div>
+                
+                <div class="w-full h-px bg-white/10 mb-8"></div>
+                <p class="text-xs text-brand-roseLight/60">&copy; 2026 Mariana Jamilly. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Script Principal da Aplicação -->
+    <script src="script.js"></script>
+
+    <!-- Script da Lista de Poemas -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCEggZoP5vk1JENjO8701pAFdBIBPB8gPQ",
@@ -145,7 +203,7 @@
             db.collection("poemas").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
                 container.innerHTML = '';
                 if (snapshot.empty) {
-                    container.innerHTML = '<p style="text-align: center; color: #777; grid-column: 1/-1;">Nenhum poema publicado ainda.</p>';
+                    container.innerHTML = '<p class="col-span-full text-center text-gray-500 py-12">Nenhum poema publicado ainda.</p>';
                     return;
                 }
 
@@ -156,17 +214,32 @@
                     const segundaLinha = linhas[1] || '';
 
                     const card = document.createElement('a');
-                    card.className = 'card-poema';
+                    card.className = 'bg-brand-cardBg rounded-3xl p-8 border border-brand-roseLight shadow-soft-wine hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group';
                     card.href = `poema1.html?id=${doc.id}`;
                     card.innerHTML = `
-                        <h3>${poema.titulo || 'Sem título'}</h3>
-                        <p>"${primeiraLinha}<br>${segundaLinha}..."</p>
-                        <span class="ler-mais">Ler Poema Completo →</span>
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="w-8 h-8 rounded-full bg-brand-roseLight flex items-center justify-center text-brand-wine group-hover:bg-brand-wine group-hover:text-white transition-colors">
+                                    <i class="fa-solid fa-feather text-xs"></i>
+                                </span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold text-brand-wine mb-3 group-hover:text-brand-rose transition-colors">
+                                ${poema.titulo || 'Sem título'}
+                            </h3>
+                            <p class="font-serif italic text-gray-600 text-sm leading-relaxed mb-6">
+                                "${primeiraLinha}<br>${segundaLinha}..."
+                            </p>
+                        </div>
+                        <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-rose group-hover:text-brand-wine transition-colors pt-4 border-t border-brand-roseLight/60">
+                            <span>Ler Poema Completo</span>
+                            <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
                     `;
                     container.appendChild(card);
                 });
             }, (erro) => {
                 console.error("Erro ao carregar poemas da lista:", erro);
+                container.innerHTML = '<p class="col-span-full text-center text-red-500 py-12">Ocorreu um erro ao carregar os poemas.</p>';
             });
         }
 

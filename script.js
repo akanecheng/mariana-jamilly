@@ -112,17 +112,49 @@ function atualizarDOM(secao, data) {
     if (secao === 'devocional') {
         const titulo = document.getElementById('viewDevocionalTitulo');
         const botao = document.getElementById('viewDevocionalBtn');
-        const container = document.getElementById('viewDevocionalParagrafos');
+        const containerParagrafos = document.getElementById('viewDevocionalParagrafos');
+
+        // Novos elementos dinâmicos da mentoria
+        const subtituloEl = document.querySelector('#devocional .text-brand-rose'); // ou crie um id se preferir
+        const citacaoEl = document.querySelector('#devocional p.italic.font-serif');
+        const imagemEl = document.querySelector('#devocional img'); // Foto do topo da mentoria
 
         if (data.titulo && titulo) titulo.innerText = data.titulo;
         if (data.link && botao) botao.href = data.link;
+        if (data.subtitulo && subtituloEl) subtituloEl.innerHTML = `🌸 ${data.subtitulo}`;
+        if (data.citacao && citacaoEl) citacaoEl.innerText = data.citacao;
+        if (data.foto && imagemEl) imagemEl.src = data.foto;
 
-        if (Array.isArray(data.paragrafos) && container) {
-            container.innerHTML = data.paragrafos.map(p => `<p>${p}</p>`).join('');
+        // Renderiza os balões de situação dinamicamente se houver container ou se quisermos atualizar
+        if (Array.isArray(data.baloes)) {
+            const gridBaloes = document.querySelector('#devocional .grid-cols-1.md\\:grid-cols-3');
+            if (gridBaloes) {
+                gridBaloes.innerHTML = data.baloes.map(b => `
+                    <div class="bg-brand-cardBg p-6 rounded-2xl border border-brand-roseLight flex flex-col justify-between">
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            🥀 ${b}
+                        </p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Atualiza o último balão (diferente)
+        const balaoDiferenteTexto = document.querySelector('#devocional .bg-brand-roseLight\\/60 strong');
+        const balaoDiferenteDesc = document.querySelector('#devocional .bg-brand-roseLight\\/60 p');
+        if (data.balaoDiferenteDestaque && balaoDiferenteTexto) {
+            balaoDiferenteTexto.innerText = data.balaoDiferenteDestaque;
+        }
+        if (data.balaoDiferenteTexto && balaoDiferenteDesc) {
+            balaoDiferenteDesc.innerHTML = `🤍 <strong>${data.balaoDiferenteDestaque || 'A verdade:'}</strong> ${data.balaoDiferenteTexto}`;
+        }
+
+        // Renderiza os parágrafos da jornada
+        if (Array.isArray(data.paragrafos) && containerParagrafos) {
+            containerParagrafos.innerHTML = data.paragrafos.map(p => `<p class="mb-4">${p}</p>`).join('');
         }
     }
 }
-
 // ==========================================
 // MOBILE MENU
 // ==========================================
